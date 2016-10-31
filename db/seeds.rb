@@ -5,3 +5,17 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'net/http'
+require 'json'
+
+
+# Seed the geo buildings
+
+uri = URI.parse('http://campusmap.ufl.edu/library/cmapjson/geo_buildings.json')
+response = Net::HTTP.get(uri)
+data = JSON.parse(response)
+
+data['features'].each do |feature|
+    name = feature['properties']['NAME']
+    puts "Name: #{name}"
+end
