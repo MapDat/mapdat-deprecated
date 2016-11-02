@@ -1,11 +1,12 @@
 # Building class to easily insert into the database
+<<<<<<< HEAD
 class Building
   attr_reader :id, :outlets, :computers,
               :floors, :study_space,:object_id
   attr_accessor :connection 
 
   def initialize(id, outlets, computers, study_space, floors, object_id)
-    @id = id
+   @id = id
     @outlets = outlets
     @computers = computers
     @floors = floors
@@ -14,6 +15,7 @@ class Building
     
     @connection = ActiveRecord::Base.connection
     insert
+=======
   end
 
   private
@@ -21,6 +23,4 @@ class Building
   def insert
     @connection.execute("INSERT INTO building VALUES (#{@id}, #{@outlets}, #{@computers}, #{@study_space}, #{@floors}, #{@object_id})")
   end
-
-end
 
