@@ -8,6 +8,8 @@
 require 'net/http'
 require 'json'
 
+# Lets us execute SQL
+orcl = ActiveRecord::Base.connection
 
 # Seed the geo buildings
 
@@ -45,15 +47,14 @@ data['features'].each do |feature|
                 address: address, city: city, state: state,
                 zip: zip, desc: description, url: url,
                 remote_photo_path: photo, geo_points: points }
-  count += prop_hash.count
-  puts prop_hash 
-  geo_buildings << prop_hash
+
 end
 
-puts count
 
+puts orcl.exec_query("SELECT * FROM building")
 
-
-
-
-
+geo_buildings.each do |geo_building|
+  puts "INSERTING #{geo_building}"
+    orcl.execute("INSERT INTO Building (id, number_of_outlets, computers, study_space, number_of_floors
+                 VALUES (#{geo_building[:bld_num]}, 0, 0, 0, 0)")
+end
