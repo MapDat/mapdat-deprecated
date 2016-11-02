@@ -7,9 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'net/http'
 require 'json'
+require "building.rb"
+require "map_object.rb"
 
-# Lets us execute SQL
-orcl = ActiveRecord::Base.connection
 
 # Seed the geo buildings
 
@@ -17,8 +17,6 @@ uri = URI.parse('http://campusmap.ufl.edu/library/cmapjson/geo_buildings.json')
 response = Net::HTTP.get(uri)
 data = JSON.parse(response)
 geo_buildings = []
-
-count = 0
 data['features'].each do |feature|
   props = feature['properties']  
   jtype = props['JTYPE']
@@ -30,7 +28,7 @@ data['features'].each do |feature|
   state = props['STATE']
   zip = props['ZIP']
   description = props['DESCRIPTION']
-  url = props['url']
+  url = props['URL']
   photo = props['PHOTO']
   
 
@@ -39,22 +37,28 @@ data['features'].each do |feature|
   points = []
   feature['geometry']['coordinates'].each do |point| 
     points << [point[0], point[1]]
-    count += 1
   end
 
 
   prop_hash = { jtype: jtype, bldg_num: bldg_num, abbrev: abbrev,
                 address: address, city: city, state: state,
                 zip: zip, desc: description, url: url,
-                remote_photo_path: photo, geo_points: points }
-
+                remote_photo_path: photo, geo_points: points,
+                name: name }
+  
+  puts prop_hash  
+  geo_buildings << prop_hash
 end
 
-
-puts orcl.exec_query("SELECT * FROM building")
-
-geo_buildings.each do |geo_building|
-  puts "INSERTING #{geo_building}"
-    orcl.execute("INSERT INTO Building (id, number_of_outlets, computers, study_space, number_of_floors
-                 VALUES (#{geo_building[:bld_num]}, 0, 0, 0, 0)")
+puts geo_buildings.count 
+id = 0
+geo_buildings.each do |geo_building| 
+  begin
+    Map_Object.new(id, geo_building[:name], geo_building[:desc], ' ')
+    Building.new(id, 0, 1, 1, 5, id)    
+    print '.'
+  rescue
+    print '_'
+  end
+  id += 1
 end
