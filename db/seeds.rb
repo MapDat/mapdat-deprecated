@@ -50,15 +50,20 @@ data['features'].each do |feature|
   geo_buildings << prop_hash
 end
 
-puts geo_buildings.count 
+
+
 id = 0
 geo_buildings.each do |geo_building| 
   begin
     Map_Object.new(id, geo_building[:name], geo_building[:desc], ' ')
     Building.new(id, 0, 1, 1, 5, id)    
     print '.'
-  rescue
+  rescue => error
+    puts error
     print '_'
   end
   id += 1
 end
+
+puts geo_buildings.count
+puts id
