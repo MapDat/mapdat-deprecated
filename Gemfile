@@ -2,12 +2,15 @@ source 'https://rubygems.org'
 ruby "2.3.1"
 
 
-# Oracle database 
+# Oracle database
 gem 'activerecord-oracle_enhanced-adapter', '~> 1.7.0'
 gem 'ruby-oci8'
 
 # React for rails
 gem 'react-rails'
+
+#Leaflet for Rails
+gem 'leaflet-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
