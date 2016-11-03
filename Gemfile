@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 ruby "2.3.1"
 
+# leaflet
+gem 'leaflet-rails'
 
 # Oracle database 
 gem 'activerecord-oracle_enhanced-adapter', '~> 1.7.0'
