@@ -1,10 +1,7 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
-# Examples:
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
 require 'net/http'
 require 'json'
 require "building.rb"
@@ -67,3 +64,47 @@ end
 
 puts geo_buildings.count
 puts id
+
+###############################################
+# Seed points of interest
+
+uri = URI.parse('http://campusmap.ufl.edu/library/cmapjson/urban_parks.json')
+response = Net::HTTP.get(uri)
+data = JSON.parse(response)
+poi = []
+data['features'].each do |feature| 
+  props = feature['properties']
+  name = props['NAME']
+  type = props['JTYPE']
+  description = props['DESCRIPTION']
+  
+  points = []
+  feature['geometry']['coordinates'].each do |point|
+    points << [point[0], point[1]]
+  end  
+
+  prop_hash = { name: name, desc: description, type: type, geo_points: points }
+  puts prop_hash
+  poi << prop_hash
+end
+
+
+uri = URI.parse('http://campusmap.ufl.edu/library/cmapjson/natural_areas.json')
+response = Net::HTTP.get(uri)
+data = JSON.parse(response)
+poi = []
+data['features'].each do |feature| 
+  props = feature['properties']
+  name = props['NAME']
+  type = props['JTYPE']
+  description = props['DESCRIPTION']
+  
+  points = []
+  feature['geometry']['coordinates'].each do |point|
+    points << [point[0], point[1]]
+  end  
+
+  prop_hash = { name: name, desc: description, type: type, geo_points: points }
+  puts prop_hash
+  poi << prop_hash
+end
