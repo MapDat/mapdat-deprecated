@@ -5,7 +5,7 @@ class Building
   attr_accessor :connection 
 
   def initialize(id, outlets, computers, study_space, floors, object_id)
-   @id = id
+    @id = id
     @outlets = outlets
     @computers = computers
     @floors = floors
