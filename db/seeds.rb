@@ -17,7 +17,7 @@ puts "Connecting to UF Oracle DB Servers."
 ###################################################
 
 puts "Dropping existing tables."
-# Drop the existing tables if they exist
+# Drop the existing tables
 begin
   puts "DROP TABLE geo_point"
   @connection.execute("DROP TABLE geo_point")
@@ -37,11 +37,31 @@ rescue => error
   puts error
 end
 begin
+  puts "DROP TABLE restaurant"
+  @connection.execute("DROP TABLE restaurant")
+rescue => error
+  puts error
+end
+begin
+  puts "DROP TABLE open_hours"
+  @connection.execute("DROP TABLE open_hours")
+rescue => error
+  puts error
+end
+begin
+  puts "DROP TABLE restaurant_is_open"
+  @connection.execute("DROP TABLE restaurant_is_open")
+rescue => error
+  puts error
+end
+begin
   puts "DROP TABLE map_object"
   @connection.execute("DROP TABLE map_object")
 rescue => error
   puts error
 end
+
+
 
 puts "Create Tables"
 # Recreate our tables
@@ -90,7 +110,34 @@ puts "CREATE TABLE geo_point"
     PRIMARY KEY (id),
     FOREIGN KEY (object_id) REFERENCES map_object(id)
   )")
-
+puts "CREATE TABLE restaurant"
+@connection.execute("
+  CREATE TABLE restaurant(
+    id 		                 int NOT NULL,
+    description 	         VARCHAR2 (4000) NOT NULL,
+    name 		               VARCHAR (23) NOT NULL,
+    image_path             VARCHAR (255) NOT NULL,
+    object_id              int NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (object_id) REFERENCES map_object(id)
+  )")
+puts "CREATE TABLE open_hours"
+@connection.execute("
+  CREATE TABLE Open_Hours(
+  	id 		                  int,
+  	day 	                	DATE,
+  	open_time 	            int,
+  	close_time 	            int,
+  	PRIMARY KEY (id)
+  )
+")
+puts "CREATE TABLE restaurant_is_open"
+@connection.execute("
+  CREATE TABLE restaurant_is_Open(
+    hours_id	             int,
+  	Restaurant_id		       int,
+  	PRIMARY KEY (hours_id, restaurant_id))
+    ")
 
 ###################################################
 #       SEEDING
