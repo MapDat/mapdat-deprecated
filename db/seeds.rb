@@ -9,8 +9,98 @@ require "map_object.rb"
 require "poi.rb"
 require "geo_point.rb"
 
-# buildings
+puts "Connecting to UF Oracle DB Servers."
+@connection = ActiveRecord::Base.connection # Connect to the DB
 
+###################################################
+#       TABLE CREATION
+###################################################
+
+puts "Dropping existing tables."
+# Drop the existing tables if they exist
+begin
+  puts "DROP TABLE geo_point"
+  @connection.execute("DROP TABLE geo_point")
+rescue => error
+  puts error
+end
+begin
+  puts "DROP TABLE point_of_interest"
+  @connection.execute("DROP TABLE point_of_interest")
+rescue => error
+  puts error
+end
+begin
+  puts "DROP TABLE building"
+  @connection.execute("DROP TABLE building")
+rescue => error
+  puts error
+end
+begin
+  puts "DROP TABLE map_object"
+  @connection.execute("DROP TABLE map_object")
+rescue => error
+  puts error
+end
+
+puts "Create Tables"
+# Recreate our tables
+
+puts "CREATE TABLE map_object"
+# Must come before all dependent tables
+@connection.execute("
+  CREATE TABLE map_object(
+    id                      int NOT NULL,
+    name 		                VARCHAR(255),
+    description 	          VARCHAR2(4000),
+  	image_path 	            VARCHAR (255),
+    PRIMARY KEY(id)
+  )")
+
+puts "CREATE TABLE building"
+@connection.execute("
+  CREATE TABLE building(
+    id 		                   int NOT NULL,
+    number_of_outlets 	     int,
+    computers 		           int,
+    study_space 		         int,
+    number_of_floors 	       int,
+    object_id                int NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (object_id)  REFERENCES map_object(id)
+  )")
+
+puts "CREATE TABLE point_of_interest"
+@connection.execute("
+  CREATE TABLE point_of_interest(
+    id 		                  int NOT NULL,
+    type 		                VARCHAR (255),
+    object_id               int NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (object_id) REFERENCES map_object(id)
+  )")
+
+puts "CREATE TABLE geo_point"
+@connection.execute("
+  CREATE TABLE Geo_Point(
+  	id 	                   int NOT NULL,
+  	longitude 	           Decimal(9,6),
+  	latitude 	             Decimal(9,6),
+    object_id              int NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (object_id) REFERENCES map_object(id)
+  )")
+
+
+###################################################
+#       SEEDING
+###################################################
+# TODO: Currently only 'Polygon' type works. There is another type
+# called MultiPolygon that needs supported
+
+# Seed buildings into the database
+
+puts 'Seeding buildings'
 # Get the buildings from the campus map
 uri = URI.parse('http://campusmap.ufl.edu/library/cmapjson/geo_buildings.json')
 response = Net::HTTP.get(uri)
@@ -35,12 +125,12 @@ data['features'].each do |feature|
 
   shape =  feature['geometry']['type']
   points = []
-  puts "ITEM: "
+  # puts "ITEM: "
   feature['geometry']['coordinates'][0].each do |point|
     if shape == 'Polygon'
 
       points << [point[1], point[0]] # latitude, longitude
-      puts "#{point[1]}, #{point[0]}"
+      # puts "#{point[1]}, #{point[0]}"
     end
   end
 
@@ -74,12 +164,14 @@ geo_buildings.each do |geo_building|
   end
   id += 1
 end
-
 id += 1
 
-###############################################
-# points of interest
 
+puts 'Seeding points of interest'
+# Seed points of interest
+# Currently urban parks and natural areas are the only POI
+
+puts '    --> Urban Parks'
 # Get urban parks from the campus map
 uri = URI.parse('http://campusmap.ufl.edu/library/cmapjson/urban_parks.json')
 response = Net::HTTP.get(uri)
@@ -93,15 +185,14 @@ data['features'].each do |feature|
   type = props['JTYPE']
   description = props['DESCRIPTION']
   shape = feature['geometry']['type']
-
   points = []
 
-  puts "ITEM: "
+  # puts "ITEM: "
   feature['geometry']['coordinates'][0].each do |point|
     if shape == 'Polygon'
 
       points << [point[1], point[0]] # latitude, longitude
-      puts "#{point[1]}, #{point[0]}"
+      # puts "#{point[1]}, #{point[0]}"
     end
   end
 
@@ -110,6 +201,7 @@ data['features'].each do |feature|
   geo_pois << prop_hash
 end
 
+puts '    --> Natural Areas'
 # Get natural areas from campus map
 uri = URI.parse('http://campusmap.ufl.edu/library/cmapjson/natural_areas.json')
 response = Net::HTTP.get(uri)
@@ -122,15 +214,14 @@ data['features'].each do |feature|
   type = props['JTYPE']
   description = props['DESCRIPTION']
   shape = feature['geometry']['type']
-
   points = []
 
-  puts "ITEM: "
+  # puts "ITEM: "
   feature['geometry']['coordinates'][0].each do |point|
     if shape == 'Polygon'
 
       points << [point[1], point[0]] # latitude, longitude
-      puts "#{point[1]}, #{point[0]}"
+      # puts "#{point[1]}, #{point[0]}"
     end
   end
 
@@ -145,10 +236,9 @@ geo_pois.each do |geo_poi|
   begin
     Map_Object.new(id, geo_poi[:name], geo_poi[:desc], ' ')
     Poi.new(id, geo_poi[:type], id)
-    puts geo_poi[:name]
     geo_poi[:geo_points].each do |geo_point|
       Geo_Point.new(geo_id, geo_point[1], geo_point[0], id)
-      puts "#{geo_point[0]}, #{geo_point[1]}"
+      # puts "#{geo_point[0]}, #{geo_point[1]}"
       geo_id += 1
     end
     print '.'
@@ -158,3 +248,6 @@ geo_pois.each do |geo_poi|
   end
   id += 1
 end
+
+#
+# RESTAURANTS
