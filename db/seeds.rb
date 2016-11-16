@@ -43,14 +43,8 @@ rescue => error
   puts error
 end
 begin
-  puts "DROP TABLE open_hours"
-  @connection.execute("DROP TABLE open_hours")
-rescue => error
-  puts error
-end
-begin
-  puts "DROP TABLE restaurant_is_open"
-  @connection.execute("DROP TABLE restaurant_is_open")
+  puts "DROP TABLE rest_open_hours"
+  @connection.execute("DROP TABLE rest_open_hours")
 rescue => error
   puts error
 end
@@ -123,21 +117,15 @@ puts "CREATE TABLE restaurant"
   )")
 puts "CREATE TABLE open_hours"
 @connection.execute("
-  CREATE TABLE Open_Hours(
-  	id 		                  int,
+  CREATE TABLE rest_open_hours(
+  	rest_id 		            int,
   	day 	                	DATE,
   	open_time 	            int,
   	close_time 	            int,
-  	PRIMARY KEY (id)
+  	PRIMARY KEY (rest_id),
+    FOREIGN KEY (rest_id) REFERENCES restaurant(id)
   )
 ")
-puts "CREATE TABLE restaurant_is_open"
-@connection.execute("
-  CREATE TABLE restaurant_is_Open(
-    hours_id	             int,
-  	Restaurant_id		       int,
-  	PRIMARY KEY (hours_id, restaurant_id))
-    ")
 
 ###################################################
 #       SEEDING
@@ -298,3 +286,15 @@ end
 
 #
 # RESTAURANTS
+restaurants = YAML.load_file("#{Rails.root}/db/restaurants.yml")
+
+restaurants.each do |key, value|
+  name = key
+  puts key
+
+  value.each do |day, hours|
+    puts day.first
+  end
+
+  puts '--'
+end
