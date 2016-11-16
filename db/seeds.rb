@@ -92,10 +92,17 @@ data['features'].each do |feature|
   name = props['NAME']
   type = props['JTYPE']
   description = props['DESCRIPTION']
+  shape = feature['geometry']['type']
 
   points = []
-  feature['geometry']['coordinates'].each do |point|
-    points << [point[0], point[1]]
+
+  puts "ITEM: "
+  feature['geometry']['coordinates'][0].each do |point|
+    if shape == 'Polygon'
+
+      points << [point[1], point[0]] # latitude, longitude
+      puts "#{point[1]}, #{point[0]}"
+    end
   end
 
   prop_hash = { name: name, desc: description, type: type, geo_points: points }
@@ -114,7 +121,7 @@ data['features'].each do |feature|
   name = props['NAME']
   type = props['JTYPE']
   description = props['DESCRIPTION']
-  shape =  feature['geometry']['type']
+  shape = feature['geometry']['type']
 
   points = []
 
@@ -138,8 +145,10 @@ geo_pois.each do |geo_poi|
   begin
     Map_Object.new(id, geo_poi[:name], geo_poi[:desc], ' ')
     Poi.new(id, geo_poi[:type], id)
+    puts geo_poi[:name]
     geo_poi[:geo_points].each do |geo_point|
       Geo_Point.new(geo_id, geo_point[1], geo_point[0], id)
+      puts "#{geo_point[0]}, #{geo_point[1]}"
       geo_id += 1
     end
     print '.'
