@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
-  def index
+  def buildings
+  end
+
+  def points_of_interest
   end
 end
