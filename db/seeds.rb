@@ -40,7 +40,7 @@ rescue => error
 end
 begin
   puts "DROP TABLE rest_open_hours"
-  @connection.execute("DROP TABLE rest_open_hours")
+  @connection.execute("DROP TABLE open_hours")
 rescue => error
   puts error
 end
@@ -123,14 +123,14 @@ puts "CREATE TABLE restaurant"
   )")
 puts "CREATE TABLE open_hours"
 @connection.execute("
-  CREATE TABLE rest_open_hours(
+  CREATE TABLE open_hours(
   	id      		            int,
-    rest_id                 int,
+    object_id               int,
   	day 	                	VARCHAR(9),
   	open_time 	            int,
   	close_time 	            int,
   	PRIMARY KEY (id),
-    FOREIGN KEY (rest_id) REFERENCES restaurant(id)
+    FOREIGN KEY (object_id) REFERENCES map_object(id)
   )
 ")
 

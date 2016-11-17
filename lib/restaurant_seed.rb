@@ -24,7 +24,11 @@ class Restaurant_Seed
 
   def insert_hours
     @hours.each do |day|
-      @connection.execute("INSERT INTO rest_open_hours VALUES (#{@@hour_id}, #{@rest_id}, '#{day.day}', #{day.open_hour}, #{day.close_hour})")
+      unless object_id.nil?
+        @connection.execute("INSERT INTO open_hours VALUES (#{@@hour_id}, #{@object_id}, '#{day.day}', #{day.open_hour}, #{day.close_hour})")
+      else
+        puts "FAILED TO ASSOCIATE HOUR WITH RESTAURANT. MISSING OBJECT_ID."
+      end
       @@hour_id += 1
     end
   end
