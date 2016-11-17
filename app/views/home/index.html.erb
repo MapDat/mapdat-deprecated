@@ -1,8 +1,52 @@
-<h1>MapDat</h1>
-<p>Find me in app/views/leaflet/index.html.erb</p>
+<!-- <h1>MapDat</h1>
+<p>Find me in app/views/leaflet/index.html.erb</p> -->
 
 <!-- <div id="mapid"></div> -->
+
+<div class="container">
+  <div id="sideBar" class="clicked">
+    <div class="searchBar">
+      <div id="search-input">
+          <div class="input-group col-md-12">
+              <input type="text" class="form-control input-lg" placeholder="Search" />
+              <span class="input-group-btn">
+                  <button class="btn btn-info btn-lg" type="button">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
+              </span>
+          </div>
+      </div>
+    </div>
+    <div class="sideBar-tab">
+      <button class="btn btn-info btn-lg" type="button">
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="cover">
+      <img src="http://static.panoramio.com/photos/large/53625922.jpg" alt="" />
+    </div>
+    <div class="title">
+      <h3>Marston Science Library</h3>
+      <h4>Library</h4>
+    </div>
+  </div>
+
+</div>
+
 <%= map(:center => {
   :latlng => [51.52238797921441, -0.08366235665359283],
   :zoom => 18
 }) %>
+
+<script>
+$(document).ready(function(){
+      $('button').click(function(){
+        if( $('#sideBar').hasClass('clicked')){
+          $('#sideBar').removeClass('clicked');
+        } else {
+          $('#sideBar').addClass('clicked');
+        }
+          console.log("AWWWW YEAHHHH");
+      });
+ });
+</script>

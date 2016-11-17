@@ -4,6 +4,8 @@ ruby "2.3.1"
 # leaflet
 gem 'leaflet-rails'
 
+gem "font-awesome-rails"
+
 gem 'bootstrap-sass', '~> 3.3.6'
 
 # Oracle database
