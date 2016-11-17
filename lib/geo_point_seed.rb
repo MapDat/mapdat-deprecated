@@ -1,5 +1,5 @@
 # object for holding geo_points and inserting them into the database
-class Geo_Point
+class Geo_Point_Seed
   attr_reader :id, :longitude, :longitude, :object_id
   attr_accessor :connection
 

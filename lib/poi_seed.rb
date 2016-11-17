@@ -1,4 +1,4 @@
-class Poi
+class Poi_Seed
   attr_reader :id, :type, :object_id
   attr_accessor :connection
 

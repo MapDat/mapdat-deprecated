@@ -1,17 +1,17 @@
 # Building class to easily insert into the database
-class Building
+class Building_Seed
   attr_reader :id, :outlets, :computers,
               :floors, :study_space,:object_id
-  attr_accessor :connection 
+  attr_accessor :connection
 
   def initialize(id, outlets, computers, study_space, floors, object_id)
     @id = id
     @outlets = outlets
     @computers = computers
     @floors = floors
-    @object_id = object_id 
+    @object_id = object_id
     @study_space = study_space
-    
+
     @connection = ActiveRecord::Base.connection
     insert
   end
@@ -23,4 +23,3 @@ class Building
   end
 
 end
-

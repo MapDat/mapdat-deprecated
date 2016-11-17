@@ -1,4 +1,4 @@
-class Restaurant
+class Restaurant_Seed
   attr_reader :rest_id, :name, :desc, :image_path, :object_id, :hours
   @@hour_id = 0
   def initialize id, name, desc, image_path, object_id, hours

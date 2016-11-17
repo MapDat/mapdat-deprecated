@@ -1,5 +1,6 @@
+
 # main object class for inserting into the databas
-class Map_Object
+class Map_Object_Seed
   attr_reader :id, :name, :abbrev, :description, :image_path
   attr_accessor :connection
 

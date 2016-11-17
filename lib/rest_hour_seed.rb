@@ -1,5 +1,5 @@
 # Please use military time!!
-class Rest_Hour
+class Rest_Hour_Seed
   attr_reader :rest_id, :day, :open_time, :close_time
   def initialize
     @rest_id = rest_id

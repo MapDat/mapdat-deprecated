@@ -4,12 +4,12 @@
 #
 require 'net/http'
 require 'json'
-require "building.rb"
-require "map_object.rb"
-require "poi.rb"
-require "geo_point.rb"
+require "building_seed.rb"
+require "map_object_seed.rb"
+require "poi_seed.rb"
+require "geo_point_seed.rb"
 require "day.rb"
-require "restaurant.rb"
+require "restaurant_seed.rb"
 
 puts "Connecting to UF Oracle DB Servers."
 @connection = ActiveRecord::Base.connection # Connect to the DB
@@ -192,10 +192,10 @@ id = 0
 geo_id = 0
 geo_buildings.each do |geo_building|
   begin
-    Map_Object.new(id, geo_building[:name], geo_building[:abbrev], geo_building[:desc], ' ')
-    Building.new(id, 0, 1, 1, 5, id)
+    Map_Object_Seed.new(id, geo_building[:name], geo_building[:abbrev], geo_building[:desc], ' ')
+    Building_Seed.new(id, 0, 1, 1, 5, id)
     geo_building[:geo_points].each do |geo_point|
-      Geo_Point.new(geo_id, geo_point[1], geo_point[0], id)
+      Geo_Point_Seed.new(geo_id, geo_point[1], geo_point[0], id)
       geo_id += 1
     end
     puts geo_building[:name]
@@ -275,10 +275,10 @@ end
 # Insert map objects and points of interest
 geo_pois.each do |geo_poi|
   begin
-    Map_Object.new(id, geo_poi[:name], '', geo_poi[:desc], ' ')
-    Poi.new(id, geo_poi[:type], id)
+    Map_Object_Seed.new(id, geo_poi[:name], '', geo_poi[:desc], ' ')
+    Poi_Seed.new(id, geo_poi[:type], id)
     geo_poi[:geo_points].each do |geo_point|
-      Geo_Point.new(geo_id, geo_point[1], geo_point[0], id)
+      Geo_Point_Seed.new(geo_id, geo_point[1], geo_point[0], id)
       puts "#{geo_point[0]}, #{geo_point[1]}"
       geo_id += 1
     end
@@ -290,7 +290,6 @@ geo_pois.each do |geo_poi|
   id += 1
 end
 
-#
 # RESTAURANTS
 restaurants = YAML.load_file("#{Rails.root}/db/restaurants.yml")
 i = 0
@@ -313,7 +312,7 @@ restaurants.each do |key, value|
   end
 
   begin
-    Restaurant.new(i, key, '', '', object_id, open_hours)
+    Restaurant_Seed.new(i, key, '', '', object_id, open_hours)
   rescue => error
     puts error
     print '_'
