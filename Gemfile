@@ -2,7 +2,9 @@ source 'https://rubygems.org'
 ruby "2.3.1"
 
 
-# Oracle database 
+gem 'bootstrap-sass', '~> 3.3.6'
+
+# Oracle database
 gem 'activerecord-oracle_enhanced-adapter', '~> 1.7.0'
 gem 'ruby-oci8'
 
