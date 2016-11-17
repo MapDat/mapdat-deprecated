@@ -8,6 +8,8 @@ require "building.rb"
 require "map_object.rb"
 require "poi.rb"
 require "geo_point.rb"
+require "day.rb"
+require "restaurant.rb"
 
 puts "Connecting to UF Oracle DB Servers."
 @connection = ActiveRecord::Base.connection # Connect to the DB
@@ -37,14 +39,14 @@ rescue => error
   puts error
 end
 begin
-  puts "DROP TABLE restaurant"
-  @connection.execute("DROP TABLE restaurant")
+  puts "DROP TABLE rest_open_hours"
+  @connection.execute("DROP TABLE rest_open_hours")
 rescue => error
   puts error
 end
 begin
-  puts "DROP TABLE rest_open_hours"
-  @connection.execute("DROP TABLE rest_open_hours")
+  puts "DROP TABLE restaurant"
+  @connection.execute("DROP TABLE restaurant")
 rescue => error
   puts error
 end
@@ -60,12 +62,14 @@ end
 puts "Create Tables"
 # Recreate our tables
 
+
 puts "CREATE TABLE map_object"
 # Must come before all dependent tables
 @connection.execute("
   CREATE TABLE map_object(
     id                      int NOT NULL,
     name 		                VARCHAR(255),
+    abbrev                  VARCHAR(255),
     description 	          VARCHAR2(4000),
   	image_path 	            VARCHAR (255),
     PRIMARY KEY(id)
@@ -104,25 +108,28 @@ puts "CREATE TABLE geo_point"
     PRIMARY KEY (id),
     FOREIGN KEY (object_id) REFERENCES map_object(id)
   )")
+
+
 puts "CREATE TABLE restaurant"
 @connection.execute("
   CREATE TABLE restaurant(
-    id 		                 int NOT NULL,
-    description 	         VARCHAR2 (4000) NOT NULL,
-    name 		               VARCHAR (23) NOT NULL,
-    image_path             VARCHAR (255) NOT NULL,
-    object_id              int NOT NULL,
+    id 		                 int,
+    description 	         VARCHAR2 (4000),
+    name 		               VARCHAR (255) NOT NULL,
+    image_path             VARCHAR (255),
+    object_id              int,
     PRIMARY KEY (id),
     FOREIGN KEY (object_id) REFERENCES map_object(id)
   )")
 puts "CREATE TABLE open_hours"
 @connection.execute("
   CREATE TABLE rest_open_hours(
-  	rest_id 		            int,
-  	day 	                	DATE,
+  	id      		            int,
+    rest_id                 int,
+  	day 	                	VARCHAR(9),
   	open_time 	            int,
   	close_time 	            int,
-  	PRIMARY KEY (rest_id),
+  	PRIMARY KEY (id),
     FOREIGN KEY (rest_id) REFERENCES restaurant(id)
   )
 ")
@@ -157,7 +164,6 @@ data['features'].each do |feature|
   url = props['URL']
   photo = props['PHOTO']
 
-
   shape =  feature['geometry']['type']
   points = []
   # puts "ITEM: "
@@ -186,13 +192,13 @@ id = 0
 geo_id = 0
 geo_buildings.each do |geo_building|
   begin
-    Map_Object.new(id, geo_building[:name], geo_building[:desc], ' ')
+    Map_Object.new(id, geo_building[:name], geo_building[:abbrev], geo_building[:desc], ' ')
     Building.new(id, 0, 1, 1, 5, id)
     geo_building[:geo_points].each do |geo_point|
       Geo_Point.new(geo_id, geo_point[1], geo_point[0], id)
       geo_id += 1
     end
-    print '.'
+    puts geo_building[:name]
   rescue => error
     puts error
     print '_'
@@ -269,14 +275,14 @@ end
 # Insert map objects and points of interest
 geo_pois.each do |geo_poi|
   begin
-    Map_Object.new(id, geo_poi[:name], geo_poi[:desc], ' ')
+    Map_Object.new(id, geo_poi[:name], '', geo_poi[:desc], ' ')
     Poi.new(id, geo_poi[:type], id)
     geo_poi[:geo_points].each do |geo_point|
       Geo_Point.new(geo_id, geo_point[1], geo_point[0], id)
-      # puts "#{geo_point[0]}, #{geo_point[1]}"
+      puts "#{geo_point[0]}, #{geo_point[1]}"
       geo_id += 1
     end
-    print '.'
+    puts geo_poi[:name]
   rescue => error
     puts error
     print '_'
@@ -287,14 +293,32 @@ end
 #
 # RESTAURANTS
 restaurants = YAML.load_file("#{Rails.root}/db/restaurants.yml")
-
+i = 0
 restaurants.each do |key, value|
-  name = key
-  puts key
+#  puts restaurants[key]
+  object_id = @connection.exec_query("SELECT m.id FROM map_object m
+                                      WHERE m.abbrev = '#{restaurants[key]['Location']}'")
 
-  value.each do |day, hours|
-    puts day.first
+  if object_id.first.nil?
+    object_id = nil
+  else
+    object_id = object_id.rows[0][0]
+  end
+  puts key
+  open_hours = []
+  restaurants[key].each do |key, value|
+    next if key == 'Location'
+    day = Day.new(key, value["open"], value["close"])
+    open_hours << day
   end
 
-  puts '--'
+  begin
+    Restaurant.new(i, key, '', '', object_id, open_hours)
+  rescue => error
+    puts error
+    print '_'
+  end
+
+  i += 1
+  #Restaurant.new restaurant[key], '', '',
 end
