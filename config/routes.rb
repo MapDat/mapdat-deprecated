@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'home/buildings'
+  get 'home/buildings', to: 'home#buildings'
 
   get 'home/points_of_interest'
 

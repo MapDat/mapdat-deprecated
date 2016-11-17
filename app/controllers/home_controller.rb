@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  def index
+  def buildings
     @connection = ActiveRecord::Base.connection
 
     @buildings = @connection.exec_query("SELECT m.id,
@@ -41,12 +41,14 @@ class HomeController < ApplicationController
                         image_path:         row[7],
                         geo_points:         points
                       }
-                      
+
       @output << building_hash
     end
     File.open('test.json', 'a') { |file| file.puts @output.to_json }
     render component: 'Building', props: { buildings: @output }, tag: 'span', class: 'home'
   end
 
+  def index
+  end
 
 end
