@@ -13,7 +13,69 @@
  *= require leaflet
  *= require_tree .
  *= require_self
+ *= require font-awesome
  */
+body {
+  margin: 0;
+}
+
+.container {
+  z-index: 1;
+}
+
  #map {
-   height: 500px;
+   height: 100vh;
+   width: 100vw;
+   /*z-index: -2;*/
+ }
+
+ #search-input{
+     padding: 10px;
+     border: solid 1px #E4E4E4;
+     border-radius: 6px;
+     background-color: #fff;
+     position: absolute;
+     top: 10px;
+     z-index: 1;
+ }
+
+ #search-input input{
+     border: 0;
+     box-shadow: none;
+     font-size: 16px;
+     width: 300px;
+ }
+
+ #search-input .input-group-btn {
+   transform: translateY(-10px);
+   margin-top: -50px;
+ }
+
+ #search-input button{
+     background: none;
+     box-shadow: none;
+     border: 0;
+     color: #666666;
+     padding: 0 8px 0 10px;
+     border-left: solid 1px #ccc;
+ }
+
+ #search-input .fa {
+   font-size: 16px;
+ }
+
+ #sideBar {
+   position: absolute;
+   left: 0;
+   width: 380px;
+   height: 100vh;
+   background-color: white;
+   z-index: 1;
+   -webkit-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
+-moz-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
+box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
+ }
+
+ #sideBar .cover img {
+   width: 100%;
  }

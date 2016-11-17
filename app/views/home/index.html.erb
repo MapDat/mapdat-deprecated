@@ -1,7 +1,29 @@
-<h1>MapDat</h1>
-<p>Find me in app/views/leaflet/index.html.erb</p>
+<!-- <h1>MapDat</h1>
+<p>Find me in app/views/leaflet/index.html.erb</p> -->
 
 <!-- <div id="mapid"></div> -->
+
+<div class="container">
+  <div class="searchBar">
+    <div id="search-input">
+        <div class="input-group col-md-12">
+            <input type="text" class="form-control input-lg" placeholder="Search" />
+            <span class="input-group-btn">
+                <button class="btn btn-info btn-lg" type="button">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="sideBar">
+  <div class="cover">
+    <img src="http://static.panoramio.com/photos/large/53625922.jpg" alt="" />
+  </div>
+</div>
 
 <%= map(:center => {
   :latlng => [51.52238797921441, -0.08366235665359283],
