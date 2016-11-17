@@ -24,8 +24,8 @@ class HomeController < ApplicationController
       @coordinates.rows.each do |coordinate|
         if coordinate[2] == row[0]
           points << {
-                      longitude: coordinate[0],
-                      latitude: coordinate[1],
+                      latitude: coordinate[0],
+                      longitude: coordinate[1],
                     }
         end
       end
