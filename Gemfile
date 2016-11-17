@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 ruby "2.3.1"
 
+# leaflet
+gem 'leaflet-rails'
 
 gem 'bootstrap-sass', '~> 3.3.6'
 
