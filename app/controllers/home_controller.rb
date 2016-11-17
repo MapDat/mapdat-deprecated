@@ -2,17 +2,50 @@ class HomeController < ApplicationController
   def index
     @connection = ActiveRecord::Base.connection
 
-    @buildings = @connection.exec_query("SELECT * FROM building b, map_object m, geo_point g
-                                         WHERE b.object_id = m.id AND g.object_id = m.id")
+    @buildings = @connection.exec_query("SELECT m.id,
+                                                m.name,
+                                                m.abbrev,
+                                                b.number_of_outlets,
+                                                b.computers,
+                                                b.study_space,
+                                                m.description,
+                                                m.image_path
+                                         FROM building b, map_object m
+                                         WHERE b.object_id = m.id")
 
+    @coordinates = @connection.exec_query("SELECT longitude, latitude, object_id
+                                           FROM geo_point")
 
+    # [m.id, m.name, m.abbrev, b.number_of_outlets, b.computers,
+    #  b.study_space, m.description, m.image_path ]
+    @output = []
+    @buildings.rows.each do |row|
+      points = []
+      @coordinates.rows.each do |coordinate|
+        if coordinate[2] == row[0]
+          points << {
+                      longitude: coordinate[0],
+                      latitude: coordinate[1],
+                    }
+        end
+      end
 
-    buildings = []
-    @buildings.rows.each do |building|
-      buildings << [building[7], building[8], building[9], '', 0, 0, 0, 0]
+      building_hash = {
+                        id:                 row[0],
+                        name:               row[1],
+                        abbrev:             row[2],
+                        description:        row[6],
+                        number_of_outlets:  row[3],
+                        computers:          row[4],
+                        study_space:        row[5],
+                        image_path:         row[7],
+                        geo_points:         points
+                      }
+                      
+      @output << building_hash
     end
-    puts buildings
-    render component: 'Building', props: { buildings: @buildings[0..100]}, tag: 'span', class: 'home'
+    File.open('test.json', 'a') { |file| file.puts @output.to_json }
+    render component: 'Building', props: { buildings: @output }, tag: 'span', class: 'home'
   end
 
 
