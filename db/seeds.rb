@@ -39,7 +39,7 @@ rescue => error
   puts error
 end
 begin
-  puts "DROP TABLE rest_open_hours"
+  puts "DROP TABLE open_hours"
   @connection.execute("DROP TABLE open_hours")
 rescue => error
   puts error
