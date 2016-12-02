@@ -45,6 +45,18 @@ rescue => error
   puts error
 end
 begin
+  puts "DROP TABLE reviews"
+  @connection.execute("DROP TABLE reviews")
+rescue => error
+  puts error
+end
+begin
+  puts "DROP TABLE users"
+  @connection.execute("DROP TABLE users")
+rescue => error
+  puts error
+end
+begin
   puts "DROP TABLE restaurant"
   @connection.execute("DROP TABLE restaurant")
 rescue => error
@@ -109,6 +121,34 @@ puts "CREATE TABLE geo_point"
     FOREIGN KEY (object_id) REFERENCES map_object(id)
   )")
 
+puts "CREATE TABLE Users"
+@connection.execute("
+  CREATE TABLE users(
+    email 				VARCHAR (255) NOT NULL,
+    first_name 			VARCHAR (255) NOT NULL,
+    last_name 			VARCHAR (255) NOT NULL,
+    encrypted_password 		VARCHAR (255) NOT NULL,
+    reset_password_token 	VARCHAR (255),
+    last_sign_in_at 		TIMESTAMP,
+    current_sign_in_at 		TIMESTAMP,
+    last_sign_in_ip 		VARCHAR (255),
+    current_sign_in_ip 		VARCHAR (255),
+    PRIMARY KEY (email)
+  )")
+
+puts "CREATE TABLE reviews"
+@connection.execute("
+  CREATE TABLE reviews(
+    email 		VARCHAR (255),
+    object_id	int,
+    content 	VARCHAR (500),
+    review_date 	DATE,
+    title 		VARCHAR (50),
+    rating 	INT,
+    PRIMARY KEY (email, object_id),
+    FOREIGN KEY (email) REFERENCES Users(email),
+    FOREIGN KEY (object_id) REFERENCES Map_Object(id)
+  )")
 
 puts "CREATE TABLE restaurant"
 @connection.execute("
@@ -139,6 +179,28 @@ puts "CREATE TABLE open_hours"
 ###################################################
 # TODO: Currently only 'Polygon' type works. There is another type
 # called MultiPolygon that needs supported
+
+
+# Users
+i = 1
+100000.times do
+  first_name = Faker::Name.first_name.gsub(/'/, '')
+  last_name = Faker::Name.last_name.gsub(/'/, '')
+  email = Faker::Internet.email
+  password = Faker::Internet.password
+  puts i.to_s + ' ' + first_name + ' ' + last_name + ' ' + email + ' ' + password
+  begin
+    @connection.execute("INSERT INTO users VALUES(
+                        '#{email}', '#{first_name}', '#{last_name}', '#{password}', NULL,
+                        NULL, NULL, NULL, NULL)")
+    i += 1
+  rescue => error
+    puts 'Could not create record'
+    puts error
+  end
+
+
+end
 
 # Seed buildings into the database
 
