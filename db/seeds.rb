@@ -11,6 +11,8 @@ require "geo_point_seed.rb"
 require "day.rb"
 require "restaurant_seed.rb"
 
+
+seed_users = false
 puts "Connecting to UF Oracle DB Servers."
 @connection = ActiveRecord::Base.connection # Connect to the DB
 
@@ -50,12 +52,16 @@ begin
 rescue => error
   puts error
 end
-begin
-  puts "DROP TABLE users"
-  @connection.execute("DROP TABLE users")
-rescue => error
-  puts error
+
+if seed_users
+  begin
+    puts "DROP TABLE users"
+    @connection.execute("DROP TABLE users")
+  rescue => error
+    puts error
+  end
 end
+
 begin
   puts "DROP TABLE restaurant"
   @connection.execute("DROP TABLE restaurant")
@@ -121,20 +127,24 @@ puts "CREATE TABLE geo_point"
     FOREIGN KEY (object_id) REFERENCES map_object(id)
   )")
 
-puts "CREATE TABLE Users"
-@connection.execute("
-  CREATE TABLE users(
-    email 				VARCHAR (255) NOT NULL,
-    first_name 			VARCHAR (255) NOT NULL,
-    last_name 			VARCHAR (255) NOT NULL,
-    encrypted_password 		VARCHAR (255) NOT NULL,
-    reset_password_token 	VARCHAR (255),
-    last_sign_in_at 		TIMESTAMP,
-    current_sign_in_at 		TIMESTAMP,
-    last_sign_in_ip 		VARCHAR (255),
-    current_sign_in_ip 		VARCHAR (255),
-    PRIMARY KEY (email)
-  )")
+if seed_users
+  puts "CREATE TABLE Users"
+  @connection.execute("
+    CREATE TABLE users(
+      email 				VARCHAR (255) NOT NULL,
+      first_name 			VARCHAR (255) NOT NULL,
+      last_name 			VARCHAR (255) NOT NULL,
+      encrypted_password 		VARCHAR (255) NOT NULL,
+      reset_password_token 	VARCHAR (255),
+      last_sign_in_at 		TIMESTAMP,
+      current_sign_in_at 		TIMESTAMP,
+      last_sign_in_ip 		VARCHAR (255),
+      current_sign_in_ip 		VARCHAR (255),
+      PRIMARY KEY (email)
+    )")
+else
+  puts "SKIP TABLE USERS"
+end
 
 puts "CREATE TABLE reviews"
 @connection.execute("
@@ -180,27 +190,34 @@ puts "CREATE TABLE open_hours"
 # TODO: Currently only 'Polygon' type works. There is another type
 # called MultiPolygon that needs supported
 
-
 # Users
-i = 1
-100000.times do
-  first_name = Faker::Name.first_name.gsub(/'/, '')
-  last_name = Faker::Name.last_name.gsub(/'/, '')
-  email = Faker::Internet.email
-  password = Faker::Internet.password
-  puts i.to_s + ' ' + first_name + ' ' + last_name + ' ' + email + ' ' + password
-  begin
-    @connection.execute("INSERT INTO users VALUES(
-                        '#{email}', '#{first_name}', '#{last_name}', '#{password}', NULL,
-                        NULL, NULL, NULL, NULL)")
-    i += 1
-  rescue => error
-    puts 'Could not create record'
-    puts error
+if seed_users
+  i = 1
+  100000.times do
+    first_name = Faker::Name.first_name.gsub(/'/, '')
+    last_name = Faker::Name.last_name.gsub(/'/, '')
+    email = Faker::Internet.email
+    password = Faker::Internet.password
+    puts i.to_s + ' ' + first_name + ' ' + last_name + ' ' + email + ' ' + password
+    begin
+      @connection.execute("INSERT INTO users VALUES(
+                          '#{email}', '#{first_name}', '#{last_name}', '#{password}', NULL,
+                          NULL, NULL, NULL, NULL)")
+      i += 1
+    rescue => error
+      puts 'Could not create record'
+      puts error
+    end
   end
+end
 
+# reviews
+@user_emails = @connection.exec_query("SELECT email FROM users")
+@user_emails = @user_emails.rows.sample(25000)
+@user_emails.each do |user_email|
 
 end
+
 
 # Seed buildings into the database
 
