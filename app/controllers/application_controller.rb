@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   def current_user
     logger.info session[:email]
     @current_user ||= User.find_by_email(session[:email]) if session[:email]
-    logger.info @current_user[:email]
     @current_user
   end
   helper_method :current_user
