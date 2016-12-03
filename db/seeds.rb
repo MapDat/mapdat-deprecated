@@ -15,6 +15,7 @@ require "restaurant_seed.rb"
 seed_users = false
 seed_map_objects = false
 seed_reviews = false
+seed_restaurants = false
 puts "Connecting to UF Oracle DB Servers."
 @connection = ActiveRecord::Base.connection # Connect to the DB
 
@@ -43,6 +44,10 @@ if seed_map_objects
   rescue => error
     puts error
   end
+
+end
+
+if seed_restaurants
   begin
     puts "DROP TABLE open_hours"
     @connection.execute("DROP TABLE open_hours")
@@ -69,13 +74,16 @@ if seed_users
   end
 end
 
-if seed_map_objects
+if seed_restaurants
   begin
     puts "DROP TABLE restaurant"
     @connection.execute("DROP TABLE restaurant")
   rescue => error
     puts error
   end
+end
+
+if seed_map_objects
   begin
     puts "DROP TABLE map_object"
     @connection.execute("DROP TABLE map_object")
@@ -168,7 +176,7 @@ if seed_users
     )")
 end
 
-if seed_map_objects
+if seed_restaurants
   puts "CREATE TABLE restaurant"
   @connection.execute("
     CREATE TABLE restaurant(
@@ -218,13 +226,6 @@ if seed_users
       puts error
     end
   end
-end
-
-# reviews
-@user_emails = @connection.exec_query("SELECT email FROM users")
-@user_emails = @user_emails.rows.sample(25000)
-@user_emails.each do |user_email|
-
 end
 
 
@@ -379,6 +380,9 @@ if seed_map_objects
     id += 1
   end
 
+end
+
+if seed_restaurants
 
   # RESTAURANTS
   restaurants = YAML.load_file("#{Rails.root}/db/restaurants.yml")
