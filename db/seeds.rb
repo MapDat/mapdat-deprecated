@@ -16,7 +16,7 @@ seed_users = false
 seed_map_objects = false
 seed_restaurants = false
 seed_reviews = false
-seed_pop_times = true
+seed_pop_times = false
 puts "Connecting to UF Oracle DB Servers."
 @connection = ActiveRecord::Base.connection # Connect to the DB
 

@@ -10,4 +10,5 @@ class HomeController < ApplicationController
                                       ")
     @objects.rows
   end
+
 end
