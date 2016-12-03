@@ -4,6 +4,10 @@ body {
  font-family: 'Helvetica';
 }
 
+:focus {
+  outline: none !important;
+}
+
 .container {
  z-index: 1;
 }
@@ -35,6 +39,87 @@ body {
   font-weight: lighter;
   color: white;
   font-size: 16px;
+}
+
+.login-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  background-color: #ff8080;
+  padding: 12px 20px;
+  border-radius: 3px;
+  border: 0px solid white;
+  margin: 0;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.account-btn {
+  position: absolute;
+  top: 12px;
+  right: 300px;
+  z-index: 3;
+  width: 100px;
+  height: 75px;
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg/440px-Vincent_van_Gogh_-_Self-Portrait_-_Google_Art_Project_%28454045%29.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 20px 0 0 20px;
+  border: 3px solid #ff8080;
+  border-right: 0px solid #ff8080;
+}
+
+.account-btn:active, .account-btn:focus {
+  border: 3px solid #ff8080 !important;
+  border-right: 0px solid #ff8080 !important;
+}
+
+.account-btn img {
+  object-fit: cover;
+}
+
+.sideBar-right {
+  background-color: white;
+  width: 300px;
+  height: 100vh;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 3;
+  -webkit-box-shadow: 5px 0px 27px 7px rgba(0,0,0,0.26);
+  -moz-box-shadow: 5px 0px 27px 7px rgba(0,0,0,0.26);
+  box-shadow: 5px 0px 27px 7px rgba(0,0,0,0.26);
+}
+
+.top-row {
+  background-color: #ff8080;
+  padding: 24px 24px;
+  height: 39px;
+}
+
+.top-row h3 {
+  color: white;
+  margin: 0;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.top-row form {
+  display: inline-block;
+}
+
+.top-row input {
+  margin-top: 22px;
+  border: 3px solid white;
+  padding: 4px 14px;
+  font-size: 12px;
+  background-color: #ff8080;
+  border-radius: 10px;
+  color: white;
+  margin-right: 20px;
 }
 
 .sideBar-tab {

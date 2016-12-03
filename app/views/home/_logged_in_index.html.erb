@@ -32,7 +32,16 @@
       <h4>Library</h4>
     </div>
   </div>
-
+  <div class="sideBar-right">
+    <div class="top-row">
+      <h3>Hey there, Vincent!</h3>
+      <%= button_to "About"%>
+      <%= button_to "Logout", logout_path, method: :get%>
+    </div>
+  </div>
+  <button type="button" class="account-btn" name="button">
+    <!-- <img src="" alt=""> -->
+  </button>
 </div>
 
 <%= map(:center => {
