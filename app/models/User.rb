@@ -1,10 +1,38 @@
 class User
   include ActiveModel::Model
-  attr_accesor :email, :first_name, :last_name :encrypted_password,
-               :reset_password_token, :last_sign_in_at, :current_sign_in_at,
-               :last_sign_in_ip, :current_sign_in_ip
 
   validates :email, presence: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
+  validates :password, presence: true
+
+  attr_accessor  :email, :first_name, :last_name, :encrypted_password,
+                 :reset_password_token, :last_sign_in_at, :current_sign_in_at,
+                 :last_sign_in_ip, :current_sign_in_ip
+
+  def save
+    @connection = ActiveRecord::Base.connection
+    begin
+      @connection.execute("INSERT INTO users VALUES(
+                          '#{@email}', '#{@first_name}', '#{@last_name}', '#{@encrypted_password}', NULL,
+                          NULL, NULL, NULL, NULL)")
+      return true
+    rescue => error
+      return false
+    end
+  end
+
+  def self.find_by_email email
+    @connection = ActiveRecord::Base.connection
+    result = @connection.exec_query("SELECT * FROM users
+                                     WHERE email = '#{email}'
+                                     AND encrypted_password = '#{password}'")
+  end
+
+  def self.authenticate email, password
+    @connection = ActiveRecord::Base.connection
+    result = @connection.exec_query("SELECT * FROM users
+                                     WHERE email = '#{email}'
+                                     AND encrypted_password = '#{password}'")
+    return true if result.first != nil
+    return false if result.first == nil
+  end
 end
