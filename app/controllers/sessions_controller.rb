@@ -18,6 +18,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:email] = nil
-    redirect_to '/login'
+    redirect_to '/'
   end
 end
