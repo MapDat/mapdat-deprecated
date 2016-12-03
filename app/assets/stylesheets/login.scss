@@ -7,12 +7,20 @@ body {
   font-style: 'Helvetica';
 }
 
+h1 {
+  text-align: center;
+  margin-bottom: 5px;
+  color: white;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+
 .container {
   position: absolute;
   width: 400px;
-  height: 320px;
+  height: 490px;
   background-color: white;
-  margin-top: -200px;
+  margin-top: -265px;
   margin-left: -200px;
   left: 50%;
   top: 50%;
@@ -21,6 +29,7 @@ body {
 
 .col-xs-12 {
   padding: 40px 60px;
+  padding-top: 20px;
 }
 
 h4 {
@@ -42,16 +51,21 @@ input {
   outline: none;
 }
 
-button {
+input[type="submit"] {
   width: 200px;
   height: 80px;
   font-size: 20px;
   margin-left: 50%;
-  transform: translateX(-50%) translateY(40px);
+  transform: translateX(-50%) translateY(20px);
   background-color: #ff8080;
   border: 6px solid white;
   border-radius: 16px;
   color: white;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #ff8080 inset;
+    -webkit-text-fill-color: white !important;
 }
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */

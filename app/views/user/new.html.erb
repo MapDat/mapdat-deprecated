@@ -1,11 +1,15 @@
 <!-- app/views/users/new.html.erb -->
+<div class="container">
 
-<h1>Signup!</h1>
+<div class="col-xs-12">
+  <%= form_for :user, url: '/users' do |f| %>
+    <h4>Email</h4> <%= f.text_field :email %>
+    <h4>First Name</h4> <%= f.text_field :first_name %>
+    <h4>Last Name</h4> <%= f.text_field :last_name %>
+    <h4>Password</h4> <%= f.password_field :encrypted_password %>
+    <%= f.submit "Submit" %>
+  <% end %>
 
-<%= form_for :user, url: '/users' do |f| %>
-  Email: <%= f.text_field :email %>
-  First Name: <%= f.text_field :first_name %>
-  Last Name: <%= f.text_field :last_name %>
-  Password: <%= f.password_field :encrypted_password %>
-  <%= f.submit "Submit" %>
-<% end %>
+</div>
+
+</div>
