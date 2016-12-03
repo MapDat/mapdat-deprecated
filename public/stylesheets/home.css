@@ -2,6 +2,7 @@
 body {
  margin: 0;
  font-family: 'Helvetica';
+ overflow: hidden;
 }
 
 :focus {
@@ -20,11 +21,8 @@ body {
 
 .title {
   padding: 20px 20px;
-  background-color: #90e264;
+  background-color: #ff8080;
   margin-top: -6px;
-  -webkit-box-shadow: 1px 3px 0px 1px rgba(94,222,24,0.26);
-  -moz-box-shadow: 1px 3px 0px 1px rgba(94,222,24,0.26);
-  box-shadow: 1px 3px 0px 1px rgba(94,222,24,0.26);
 }
 
 .title h3 {
@@ -71,6 +69,9 @@ body {
   border: 3px solid #ff8080;
   border-right: 0px solid #ff8080;
   transition: right 0.4s ease-in-out;
+  -webkit-box-shadow: -5px 2px 10px 1px rgba(0,0,0,0.14);
+  -moz-box-shadow: -5px 2px 10px 1px rgba(0,0,0,0.14);
+  box-shadow: -5px 2px 10px 1px rgba(0,0,0,0.14);
 }
 
 .account-btn:active, .account-btn:focus {
@@ -84,6 +85,7 @@ body {
 
 #sideBar-right {
   background-color: white;
+  border-left: 3px solid #ff8080;
   width: 300px;
   height: 100vh;
   position: absolute;
@@ -137,11 +139,11 @@ body {
  width: 100%;
  height: 100%;
  border: none;
- background-color: white;
+ background-color: #ff8080;
  border-radius: 0 8px 8px 0px;
- -webkit-box-shadow: -5px 2px 0px 1px rgba(0,0,0,0.1);
- -moz-box-shadow: -5px 2px 0px 1px rgba(0,0,0,0.1);
- box-shadow: -5px 2px 0px 1px rgba(0,0,0,0.1);
+ -webkit-box-shadow: 5px 2px 10px 1px rgba(0,0,0,0.14);
+ -moz-box-shadow: 5px 2px 10px 1px rgba(0,0,0,0.14);
+ box-shadow: 5px 2px 10px 1px rgba(0,0,0,0.14);
 }
 
 button:active, button:focus {
@@ -151,7 +153,7 @@ button:active, button:focus {
 
 .sideBar-tab .fa {
  font-size: 20px;
- color: black;
+ color: white;
 }
 
 #search-input{
@@ -194,7 +196,8 @@ button:active, button:focus {
   left: 0px;
   width: 380px;
   height: 100vh;
-  background-color: #eaffdf;
+  background-color: #ffc9c9;
+  border-right: 3px solid #ff8080;
   z-index: 1;
   -webkit-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
 -moz-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
