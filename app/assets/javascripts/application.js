@@ -10,6 +10,8 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require reflux
+//= require axios
 //= require leaflet
 //= require jquery
 //= require jquery_ujs
@@ -18,5 +20,27 @@
 //= require react_ujs
 //= require components
 //= require_tree .
+import axios from 'axios';
 
+const loginPath = '/authenticate';
 
+let AuthAPI = {
+  login(username, password) {
+    return new Promise(function(resolve, reject) {
+      axios.post(loginPath, {email: email, password: password})
+        .then((resp) => resolve(resp.data))
+        .catch((errResp) => reject(errResp.data));
+    });
+  }
+};
+
+export default AuthAPI;
+
+import SessionStore from './session_store.js';
+
+export default function() {
+  axios.interceptors.request.use(function (config) {
+    config.headers.Authorization = 'Bearer ' + SessionStore.getAuthToken();
+    return config;
+  });
+}

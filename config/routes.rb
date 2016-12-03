@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'home/buildings', to: 'home#buildings'
-  get 'login/new', to: 'login#new'
+  get 'login', to: 'login#new'
   get 'home/points_of_interest'
 
   post 'authenticate' => 'auth#authenticate'
