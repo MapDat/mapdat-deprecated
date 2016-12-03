@@ -383,3 +383,30 @@ restaurants.each do |key, value|
   i += 1
   #Restaurant.new restaurant[key], '', '',
 end
+
+
+# Get object IDs for Reviews
+obj_ids = @connection.exec_query("SELECT id FROM map_object").rows
+ratings = [1,2,3,4,5]
+
+# Reviews
+i = 1
+1000.times do
+  email = Faker::Internet.email
+  object_id = obj_ids.sample[0]
+  content = Faker::Lorem.paragraph
+  review_date = Faker::Date.between(1.month.ago, Date.today)
+  title = Faker::Lorem.sentence
+  rating = ratings.sample[0]
+
+
+  puts i.to_s + ' ' + email + ' ' + object_id + ' ' + content + ' ' + review_date + ' ' + title + ' ' + ratings + ' ';
+  begin
+    @connection.execute("INSERT INTO reviews VALUES(
+                        '#{email}', '#{object_id}', '#{content}', '#{review_date}', '#{title}', '#{rating}')")
+    i += 1
+  rescue => error
+    puts 'Could not create record'
+    puts error
+  end
+end
