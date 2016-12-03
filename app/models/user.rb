@@ -25,6 +25,8 @@ class User
     result = @connection.exec_query("SELECT * FROM users
                                      WHERE email = '#{email}'
                                      AND encrypted_password = '#{password}'")
+
+    result.first
   end
 
   def self.authenticate email, password

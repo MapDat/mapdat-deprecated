@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
+
+  #before_filter :authorize
+
   def index
     @connection = ActiveRecord::Base.connection
     @buildings = @connection.exec_query("SELECT m.id,
