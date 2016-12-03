@@ -70,6 +70,7 @@ body {
   border-radius: 20px 0 0 20px;
   border: 3px solid #ff8080;
   border-right: 0px solid #ff8080;
+  transition: right 0.4s ease-in-out;
 }
 
 .account-btn:active, .account-btn:focus {
@@ -81,7 +82,7 @@ body {
   object-fit: cover;
 }
 
-.sideBar-right {
+#sideBar-right {
   background-color: white;
   width: 300px;
   height: 100vh;
@@ -92,6 +93,7 @@ body {
   -webkit-box-shadow: 5px 0px 27px 7px rgba(0,0,0,0.26);
   -moz-box-shadow: 5px 0px 27px 7px rgba(0,0,0,0.26);
   box-shadow: 5px 0px 27px 7px rgba(0,0,0,0.26);
+  transition: right 0.4s ease-in-out;
 }
 
 .top-row {
@@ -187,7 +189,7 @@ button:active, button:focus {
   font-size: 16px;
 }
 
-#sideBar {
+#sideBar-left {
   position: absolute;
   left: 0px;
   width: 380px;
@@ -200,10 +202,18 @@ box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
 transition: left 0.4s ease-in-out;
 }
 
-#sideBar .cover img {
+#sideBar-left .cover img {
   width: 100%;
 }
 
-.clicked {
+.clicked-left {
   left: -380px !important;
+}
+
+.clicked-right {
+  right: -300px !important;
+}
+
+.account-clicked {
+  right: 0px;
 }
