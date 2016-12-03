@@ -32,7 +32,7 @@ body {
   font-size: 20px;
 }
 
-.title h4 {
+.title h5 {
   margin: 10px 0px;
   font-weight: lighter;
   color: white;
@@ -46,14 +46,48 @@ body {
   z-index: 3;
   background-color: #ff8080;
   padding: 12px 20px;
-  border-radius: 3px;
+  border-radius: 8px;
   border: 0px solid white;
   margin: 0;
   text-align: center;
   color: white;
   font-weight: 600;
   font-size: 16px;
+  -webkit-box-shadow: -5px 2px 10px 1px rgba(0,0,0,0.14);
+  -moz-box-shadow: -5px 2px 10px 1px rgba(0,0,0,0.14);
+  box-shadow: -5px 2px 10px 1px rgba(0,0,0,0.14);
+  transition: border-radius 0.4s ease-in-out;
 }
+
+.login-container {
+  width: 200px;
+  height: 220px;
+  position: absolute;
+  top: 50px;
+  right: 12px;
+  background-color: #ff8080;
+  text-align: right;
+  padding: 20px;
+  padding-top: 0;
+  border-radius: 8px 0px 8px 8px;
+  z-index: 3;
+  display: block;
+  transition: width 0.4s ease-in-out,
+  padding 0.4s ease-in-out,
+  height 0.2s ease-in-out;
+}
+
+.login-clicked {
+  border-radius: 8px 8px 0px 0px;
+}
+
+.login-clicked-container {
+  width: 0px;
+  height: 0px;
+  padding: 0px;
+}
+
+
 
 .account-btn {
   position: absolute;

@@ -1,0 +1,60 @@
+body {
+  background-color: #ff8080;
+}
+
+form {
+  transition: width 0.4s ease-in-out;
+}
+
+h4 {
+  color: white;
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+}
+
+input {
+  width: 90%;
+  padding: 0px 0px !important;
+
+  background-color: white;
+  padding: 8px;
+  font-size: 14px;
+  border: 0;
+  border-radius: 4px;
+  transition: padding 0.4s ease-in-out,
+  box-shadow 0.4s ease-in-out
+  ;
+}
+
+
+.login-clicked-form {
+  box-shadow: none;
+  padding: 8px 8px !important;
+  width: 90%;
+
+
+}
+
+
+input[type="submit"]{
+  margin-top: 30px;
+  /*margin-right: 20px;*/
+  font-size: 16px;
+  width: 100%;
+  padding: 11px 8px;
+  -webkit-box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1);
+  -moz-box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1);
+  box-shadow: inset 0px 0px 0px 3px rgba(255,255,255,1);
+  border-radius: 8px;
+  background-color: #ff8080;
+  color: white;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: black !important;
+}
+
+.login-clicked-h4 {
+  opacity: 0;
+}

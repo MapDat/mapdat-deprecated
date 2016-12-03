@@ -1,7 +1,9 @@
+<%= stylesheet_link_tag "sessions-form" %>
+
 <%= form_tag '/login' do %>
 
-  Email: <%= text_field_tag :email %>
-  Password: <%= password_field_tag :encrypted_password %>
+  <h4 class="login-clicked-h4">email</h4><%= text_field_tag :email %>
+  <h4 class="login-clicked-h4">password</h4> <%= password_field_tag :encrypted_password %>
   <%= submit_tag "Submit" %>
 
 <% end %>
