@@ -45,10 +45,11 @@
 </div>
 
 <%= map(:center => {
-  :latlng => [51.52238797921441, -0.08366235665359283],
-  :zoom => 18
-}) %>
-
+    :latlng => [29.6481, -82.3441],
+    :zoom => 18
+  },
+  :polylines => @polylines
+) %>
 <script>
 $(document).ready(function(){
       $('#leftside-btn').click(function(){
