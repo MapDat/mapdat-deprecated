@@ -1,0 +1,68 @@
+// Place all the styles related to the login controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+body {
+  background-color: #ff8080;
+  height: 100vh;
+  font-style: 'Helvetica';
+}
+
+.container {
+  position: absolute;
+  width: 400px;
+  height: 320px;
+  background-color: white;
+  margin-top: -200px;
+  margin-left: -200px;
+  left: 50%;
+  top: 50%;
+  border-radius: 20px;
+}
+
+.col-xs-12 {
+  padding: 40px 60px;
+}
+
+h4 {
+  margin-left: 2px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #ff6161;
+  opacity: 0.9;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  font-size: 18px;
+  background-color: #ff8080;
+  border: 3px solid white;
+  border-radius: 10px;
+  color: white;
+  outline: none;
+}
+
+button {
+  width: 200px;
+  height: 80px;
+  font-size: 20px;
+  margin-left: 50%;
+  transform: translateX(-50%) translateY(40px);
+  background-color: #ff8080;
+  border: 6px solid white;
+  border-radius: 16px;
+  color: white;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #ffc3c3;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #ffc3c3;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #ffc3c3;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #ffc3c3;
+}
