@@ -14,8 +14,8 @@ require "restaurant_seed.rb"
 
 seed_users = false
 seed_map_objects = false
-seed_reviews = false
 seed_restaurants = false
+seed_reviews = true
 puts "Connecting to UF Oracle DB Servers."
 @connection = ActiveRecord::Base.connection # Connect to the DB
 
@@ -56,7 +56,7 @@ if seed_restaurants
   end
 end
 
-if seed_users
+if seed_reviews
   begin
     puts "DROP TABLE reviews"
     @connection.execute("DROP TABLE reviews")
@@ -158,15 +158,17 @@ if seed_users
       current_sign_in_ip 		VARCHAR (255),
       PRIMARY KEY (email)
     )")
+end
 
+if seed_reviews
   puts "CREATE TABLE reviews"
   @connection.execute("
     CREATE TABLE reviews(
       email 		VARCHAR (255),
       object_id	int,
-      content 	VARCHAR (500),
+      content 	VARCHAR (1000),
       review_date 	DATE,
-      title 		VARCHAR (50),
+      title 		VARCHAR (255),
       rating 	INT,
       PRIMARY KEY (email, object_id),
       FOREIGN KEY (email) REFERENCES Users(email),
@@ -208,7 +210,7 @@ end
 # Users
 if seed_users
   i = 1
-  100000.times do
+  500.times do
     first_name = Faker::Name.first_name.gsub(/'/, '')
     last_name = Faker::Name.last_name.gsub(/'/, '')
     email = Faker::Internet.email
@@ -274,7 +276,6 @@ if seed_map_objects
     geo_buildings << prop_hash
   end
 
-
   # Insert map objects, buildings, and geo_points
   id = 0
   geo_id = 0
@@ -294,7 +295,6 @@ if seed_map_objects
     id += 1
   end
   id += 1
-
 
   puts 'Seeding points of interest'
   # Seed points of interest
@@ -416,28 +416,30 @@ if seed_restaurants
 end
 
 
-# Get object IDs for Reviews
-obj_ids = @connection.exec_query("SELECT id FROM map_object").rows
-ratings = [1,2,3,4,5]
+if seed_reviews
+  # Get object IDs for Reviews
+  obj_ids = @connection.exec_query("SELECT id FROM map_object").rows
+  emails = @connection.exec_query("SELECT email FROM users").rows
 
-# Reviews
-i = 1
-1000.times do
-  email = Faker::Internet.email
-  object_id = obj_ids.sample[0]
-  content = Faker::Lorem.paragraph
-  review_date = Faker::Date.between(1.month.ago, Date.today)
-  title = Faker::Lorem.sentence
-  rating = ratings.sample[0]
+  # Reviews
+  i = 1
+  500.times do
+    email = emails.sample[0]
+    object_id = obj_ids.sample[0]
+    content = Faker::Lorem.paragraph
+    review_date = Faker::Date.between(1.month.ago, Date.today)
+    title = Faker::Lorem.sentence
+    rating = rand(1..5)
 
 
-  puts i.to_s + ' ' + email + ' ' + object_id + ' ' + content + ' ' + review_date + ' ' + title + ' ' + ratings + ' ';
-  begin
-    @connection.execute("INSERT INTO reviews VALUES(
-                        '#{email}', '#{object_id}', '#{content}', '#{review_date}', '#{title}', '#{rating}')")
-    i += 1
-  rescue => error
-    puts 'Could not create record'
-    puts error
+    puts i.to_s + ' ' + email + ' ' + object_id.to_s + ' ' + content + ' ' + review_date.to_s + ' ' + title + ' ' + rating.to_s + ' ';
+    begin
+      @connection.execute("INSERT INTO reviews VALUES(
+                          '#{email}', '#{object_id}', '#{content}', '#{review_date}', '#{title}', '#{rating}')")
+      i += 1
+    rescue => error
+      puts 'Could not create record'
+      puts error
+    end
   end
 end
