@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  def buildings
+  def index
     @connection = ActiveRecord::Base.connection
     @buildings = @connection.exec_query("SELECT m.id,
                                                 m.name,
@@ -45,8 +45,4 @@ class HomeController < ApplicationController
     end
     @output
   end
-
-  def index
-  end
-
 end
