@@ -15,7 +15,8 @@ require "restaurant_seed.rb"
 seed_users = false
 seed_map_objects = false
 seed_restaurants = false
-seed_reviews = true
+seed_reviews = false
+seed_pop_times = true
 puts "Connecting to UF Oracle DB Servers."
 @connection = ActiveRecord::Base.connection # Connect to the DB
 
@@ -78,6 +79,15 @@ if seed_restaurants
   begin
     puts "DROP TABLE restaurant"
     @connection.execute("DROP TABLE restaurant")
+  rescue => error
+    puts error
+  end
+end
+
+if seed_pop_times
+  begin
+    puts "DROP TABLE pop_times"
+    @connection.execute("DROP TABLE pop_times")
   rescue => error
     puts error
   end
@@ -198,8 +208,21 @@ if seed_restaurants
     	close_time 	            int,
     	PRIMARY KEY (id),
       FOREIGN KEY (object_id) REFERENCES map_object(id)
-    )
-  ")
+    )")
+end
+
+if seed_pop_times
+  puts "CREATE TABLE pop_times"
+  @connection.execute("
+    CREATE TABLE pop_times(
+      id                     int,
+      object_id              int,
+      day                    int,
+      hour                   int,
+      popularity             int,
+      PRIMARY KEY(id),
+      FOREIGN KEY(object_id) REFERENCES map_object(id)
+    )")
 end
 ###################################################
 #       SEEDING
@@ -415,10 +438,10 @@ if seed_restaurants
   end
 end
 
+obj_ids = @connection.exec_query("SELECT id FROM map_object").rows
 
 if seed_reviews
   # Get object IDs for Reviews
-  obj_ids = @connection.exec_query("SELECT id FROM map_object").rows
   emails = @connection.exec_query("SELECT email FROM users").rows
 
   # Reviews
@@ -442,4 +465,21 @@ if seed_reviews
       puts error
     end
   end
+end
+
+if seed_pop_times
+  i = 1
+  obj_ids.each do |obj_id|
+    7.times do |day|
+      24.times do |hour|
+        popularity = Random.new.rand(0..10)
+        puts "New popular time: #{i}, #{obj_id[0]}, #{day}, #{hour}, #{popularity}"
+        @connection.execute("INSERT INTO pop_times VALUES (
+                            #{i}, #{obj_id[0]}, #{day}, #{hour}, #{popularity}
+        )")
+        i += 1
+      end
+    end
+  end
+
 end
