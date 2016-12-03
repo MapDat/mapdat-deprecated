@@ -23,8 +23,7 @@ class User
   def self.find_by_email email
     @connection = ActiveRecord::Base.connection
     result = @connection.exec_query("SELECT * FROM users
-                                     WHERE email = '#{email}'
-                                     AND encrypted_password = '#{password}'")
+                                     WHERE email = '#{email}'")
 
     result.first
   end
@@ -34,7 +33,6 @@ class User
     result = @connection.exec_query("SELECT * FROM users
                                      WHERE email = '#{email}'
                                      AND encrypted_password = '#{password}'")
-    return true if result.first != nil
-    return false if result.first == nil
+    result.first ? true : false
   end
 end

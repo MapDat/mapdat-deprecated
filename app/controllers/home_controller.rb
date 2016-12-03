@@ -3,6 +3,7 @@ class HomeController < ApplicationController
   #before_filter :authorize
 
   def index
+    logger.info @current_user
     @connection = ActiveRecord::Base.connection
     @buildings = @connection.exec_query("SELECT m.id,
                                                 m.name,
@@ -46,6 +47,7 @@ class HomeController < ApplicationController
 
       @output << building_hash
     end
+    logger.info @output
     @output
   end
 end

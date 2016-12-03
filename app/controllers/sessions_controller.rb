@@ -3,10 +3,14 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params["email"], params["encrypted_password"])
+    logger.info params["email"]
+    logger.info params["encrypted_password"]
 
+    user = User.authenticate(params["email"], params["encrypted_password"])
+    logger.info user
     if user
       session[:email] = params[:email]
+      redirect_to '/'
     else
       redirect_to '/login'
     end
@@ -15,11 +19,5 @@ class SessionsController < ApplicationController
   def destroy
     session[:email] = nil
     redirect_to '/login'
-  end
-
-  private
-
-  def session_params
-    params.require(:user)
   end
 end
