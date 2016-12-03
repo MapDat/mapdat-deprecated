@@ -2,6 +2,7 @@ class AuthController < ApplicationController
   require 'auth_token.rb'
   skip_before_action :verify_authenticity_token
   def authenticate
+    @connection = ActiveRecord::Base.connection
     # You'll need to implement the below method. It should return the
     # user instance if the username and password are valid.
     # Otherwise return nil.

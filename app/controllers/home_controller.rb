@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def buildings
+    @connection = ActiveRecord::Base.connection
     @buildings = @connection.exec_query("SELECT m.id,
                                                 m.name,
                                                 m.abbrev,
