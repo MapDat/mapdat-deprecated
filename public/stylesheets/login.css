@@ -1,10 +1,8 @@
-// Place all the styles related to the login controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
 body {
   background-color: #ff8080;
   height: 100vh;
-  font-style: 'Helvetica';
+  font-family: 'Helvetica';
 }
 
 h1 {
