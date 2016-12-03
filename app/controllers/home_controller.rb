@@ -43,8 +43,7 @@ class HomeController < ApplicationController
 
       @output << building_hash
     end
-    File.open('test.json', 'a') { |file| file.puts @output.to_json }
-    render json: @output
+    @output
   end
 
   def index
