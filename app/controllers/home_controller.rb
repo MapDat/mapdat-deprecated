@@ -44,7 +44,7 @@ class HomeController < ApplicationController
       @output << building_hash
     end
     File.open('test.json', 'a') { |file| file.puts @output.to_json }
-    render component: 'Building', props: { buildings: @output }, tag: 'span', class: 'home'
+    render json: @output
   end
 
   def index

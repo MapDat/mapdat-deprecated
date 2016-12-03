@@ -183,7 +183,7 @@ puts "CREATE TABLE open_hours"
 
 # Users
 i = 1
-100000.times do
+1000.times do
   first_name = Faker::Name.first_name.gsub(/'/, '')
   last_name = Faker::Name.last_name.gsub(/'/, '')
   email = Faker::Internet.email
