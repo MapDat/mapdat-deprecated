@@ -12,9 +12,6 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'activerecord-oracle_enhanced-adapter', '~> 1.7.0'
 gem 'ruby-oci8'
 
-# React for rails
-gem 'react-rails'
-
 # jwt auth
 gem 'jwt'
 
