@@ -1,3 +1,5 @@
 <%= stylesheet_link_tag "home" %>
-
+<% if flash[:error] %>
+  <div class="notice"><%= flash[:error] %></div>
+<% end %>
 <%= current_user ? render('logged_in_index') : render('logged_out_index') %>

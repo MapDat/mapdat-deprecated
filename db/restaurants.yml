@@ -1,4 +1,5 @@
 'Beaty POD':
+  Location: "BEA"
   Monday:
     open: 900
     close: 300
@@ -40,23 +41,8 @@
   Saturday:
     open: 1100
     close: 1800
-'Business Office':
-  Monday:
-    open: 800
-    close: 1630
-  Tuesday:
-    open: 800
-    close: 1630
-  Wednesday:
-    open: 800
-    close: 1630
-  Thursday:
-    open: 800
-    close: 1630
-  Friday:
-    open: 800
-    close: 1630
 'Chomp It @ Racquet Club Dining Center':
+  Location: "RCD"
   Monday:
     open: 1030
     close: 1900
@@ -73,6 +59,7 @@
     open: 1030
     close: 1430
 'Engineering Bldg Java City':
+  Location: "NEB"
   Monday:
     open: 800
     close: 1500
@@ -89,6 +76,7 @@
     open: 800
     close: 1500
 'Fresh Food Company':
+  Location: "DINE"
   Monday:
     open: 700
     close: 2300
@@ -134,6 +122,7 @@
     open: 700
     close: 2300
 'Genetics Cafe':
+  Location: "CGRC"
   Monday:
     open: 830
     close: 1500
@@ -173,6 +162,7 @@
     open: 1000
     close: 300
 'Harn Camellia Court Cafe':
+  Location: "HARN"
   Tuesday:
     open: 1100
     close: 1400
@@ -223,6 +213,7 @@
     open: 800
     close: 1400
 'Hough Hall Chomp & Go':
+  Location: "HGS"
   Monday:
     open: 800
     close: 1500
@@ -279,6 +270,7 @@
     open: 700
     close: 1600
 'Hub POD':
+  Location: "HUB"
   Monday:
     open: 800
     close: 2000
@@ -295,6 +287,7 @@
     open: 800
     close: 1800
 'Hub Starbucks':
+  Location: "HUB"
   Monday:
     open: 730
     close: 1800
@@ -311,6 +304,7 @@
     open: 730
     close: 1600
 'Law School Cafe':
+  Location: "HOL"
   Monday:
     open: 730
     close: 1530
@@ -413,6 +407,7 @@
     open: 1600
     close: 2030
 'Orthopaedic Bldg Cafe':
+  Location: "OSMI"
   Monday:
     open: 800
     close: 1430
@@ -429,6 +424,7 @@
     open: 800
     close: 1430
 'Pugh Hall Chomp & Go':
+  Location: "PUGH"
   Monday:
     open: 800
     close: 1400
@@ -553,6 +549,7 @@
     open: 600
     close: 1800
 'SWRC Freshens':
+  Location: "SWRC"
   Monday:
     open: 1200
     close: 2200
@@ -569,6 +566,7 @@
     open: 1200
     close: 2200
 'Turlington Jamba Juice':
+  Location: "TUR"
   Monday:
     open: 800
     close: 1700

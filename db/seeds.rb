@@ -1,7 +1,14 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
+# HOW TO USE: This file uses environment variables assigned at the task call in order to correctly
+#             seed all aspects of the database.
 #
+#             rake:db seed seed_users=yes seed_restaurants=yes
+#
+#  seed_users, seed_restaurants, seed_map_objects, seed_reviews, seed_pop_times
+#
+
 require 'net/http'
 require 'json'
 require "building_seed.rb"
@@ -11,12 +18,9 @@ require "geo_point_seed.rb"
 require "day.rb"
 require "restaurant_seed.rb"
 
+num_users = 500
+num_reviews = 500
 
-seed_users = false
-seed_map_objects = false
-seed_restaurants = false
-seed_reviews = false
-seed_pop_times = false
 puts "Connecting to UF Oracle DB Servers."
 @connection = ActiveRecord::Base.connection # Connect to the DB
 
@@ -24,7 +28,7 @@ puts "Connecting to UF Oracle DB Servers."
 #       TABLE CREATION
 ###################################################
 
-if seed_map_objects
+if ENV["seed_map_objects"]
   puts "Dropping existing tables."
   # Drop the existing tables
   begin
@@ -48,7 +52,7 @@ if seed_map_objects
 
 end
 
-if seed_restaurants
+if ENV["seed_restaurants"]
   begin
     puts "DROP TABLE open_hours"
     @connection.execute("DROP TABLE open_hours")
@@ -57,7 +61,7 @@ if seed_restaurants
   end
 end
 
-if seed_reviews
+if ENV["seed_reviews"]
   begin
     puts "DROP TABLE reviews"
     @connection.execute("DROP TABLE reviews")
@@ -66,7 +70,7 @@ if seed_reviews
   end
 end
 
-if seed_users
+if ENV["seed_users"]
   begin
     puts "DROP TABLE users"
     @connection.execute("DROP TABLE users")
@@ -75,7 +79,7 @@ if seed_users
   end
 end
 
-if seed_restaurants
+if ENV["seed_restaurants"]
   begin
     puts "DROP TABLE restaurant"
     @connection.execute("DROP TABLE restaurant")
@@ -84,7 +88,7 @@ if seed_restaurants
   end
 end
 
-if seed_pop_times
+if ENV["seed_pop_times"]
   begin
     puts "DROP TABLE pop_times"
     @connection.execute("DROP TABLE pop_times")
@@ -93,7 +97,7 @@ if seed_pop_times
   end
 end
 
-if seed_map_objects
+if ENV["seed_map_objects"]
   begin
     puts "DROP TABLE map_object"
     @connection.execute("DROP TABLE map_object")
@@ -105,7 +109,7 @@ end
 puts "Create Tables"
 # Recreate our tables
 
-if seed_map_objects
+if ENV["seed_map_objects"]
   puts "CREATE TABLE map_object"
   # Must come before all dependent tables
   @connection.execute("
@@ -153,7 +157,7 @@ if seed_map_objects
     )")
 end
 
-if seed_users
+if ENV["seed_users"]
   puts "CREATE TABLE Users"
   @connection.execute("
     CREATE TABLE users(
@@ -170,7 +174,7 @@ if seed_users
     )")
 end
 
-if seed_reviews
+if ENV["seed_reviews"]
   puts "CREATE TABLE reviews"
   @connection.execute("
     CREATE TABLE reviews(
@@ -186,7 +190,7 @@ if seed_reviews
     )")
 end
 
-if seed_restaurants
+if ENV["seed_restaurants"]
   puts "CREATE TABLE restaurant"
   @connection.execute("
     CREATE TABLE restaurant(
@@ -211,7 +215,7 @@ if seed_restaurants
     )")
 end
 
-if seed_pop_times
+if ENV["seed_pop_times"]
   puts "CREATE TABLE pop_times"
   @connection.execute("
     CREATE TABLE pop_times(
@@ -231,9 +235,9 @@ end
 # called MultiPolygon that needs supported
 
 # Users
-if seed_users
+if ENV["seed_users"]
   i = 1
-  500.times do
+  num_users.times do
     first_name = Faker::Name.first_name.gsub(/'/, '')
     last_name = Faker::Name.last_name.gsub(/'/, '')
     email = Faker::Internet.email
@@ -254,7 +258,7 @@ end
 
 # Seed buildings into the database
 
-if seed_map_objects
+if ENV["seed_map_objects"]
   puts 'Seeding buildings'
   # Get the buildings from the campus map
   uri = URI.parse('http://campusmap.ufl.edu/library/cmapjson/geo_buildings.json')
@@ -403,7 +407,7 @@ if seed_map_objects
 
 end
 
-if seed_restaurants
+if ENV["seed_restaurants"]
 
   # RESTAURANTS
   restaurants = YAML.load_file("#{Rails.root}/db/restaurants.yml")
@@ -440,20 +444,19 @@ end
 
 obj_ids = @connection.exec_query("SELECT id FROM map_object").rows
 
-if seed_reviews
+if ENV["seed_reviews"]
   # Get object IDs for Reviews
   emails = @connection.exec_query("SELECT email FROM users").rows
 
   # Reviews
   i = 1
-  500.times do
+  num_reviews.times do
     email = emails.sample[0]
     object_id = obj_ids.sample[0]
     content = Faker::Lorem.paragraph
     review_date = Faker::Date.between(1.month.ago, Date.today)
     title = Faker::Lorem.sentence
     rating = rand(1..5)
-
 
     puts i.to_s + ' ' + email + ' ' + object_id.to_s + ' ' + content + ' ' + review_date.to_s + ' ' + title + ' ' + rating.to_s + ' ';
     begin
@@ -467,7 +470,7 @@ if seed_reviews
   end
 end
 
-if seed_pop_times
+if ENV["seed_pop_times"]
   i = 1
   obj_ids.each do |obj_id|
     7.times do |day|

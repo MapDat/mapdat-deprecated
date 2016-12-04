@@ -6,13 +6,16 @@ class SessionsController < ApplicationController
     logger.info params["email"]
     logger.info params["encrypted_password"]
 
+    # if you're reading this, hi!
+
     user = User.authenticate(params["email"], params["encrypted_password"])
     logger.info user
     if user
       session[:email] = params[:email]
       redirect_to '/'
     else
-      redirect_to '/login'
+      flash[:error] = "Invalid username/password"
+      redirect_to '/'
     end
   end
 

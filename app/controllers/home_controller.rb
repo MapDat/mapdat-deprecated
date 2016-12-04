@@ -9,7 +9,6 @@ class HomeController < ApplicationController
                                        WHERE g.object_id = m.id
                                       ").rows
 
-
     @polylines = []
     @objects.each do |object|
       object_id = object[0]
