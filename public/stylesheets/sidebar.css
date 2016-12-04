@@ -101,10 +101,39 @@ transition: left 0.4s ease-in-out;
 }
 
 .divider {
-  background-color: #ff8080;
+  background-color: black;
   height: 2px;
   width: 90%;
   margin-left: 5%;
-  border-radius: 1px;
-  opacity: 0.7;
+  opacity: 0.1;
+}
+
+#icon-stats {
+  padding: 20px;
+}
+
+#icon-stats .stats-col {
+  display: inline-block;
+  width: 24%;
+}
+
+#icon-stats .fa , #icon-stats p{
+  display: inline-block;
+}
+
+#icon-stats .fa {
+  color: #ff8080;
+  font-size: 30px;
+  margin-bottom: 10px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+#icon-stats p {
+  opacity: 0.8;
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 0px;
+  transform: translateY(-3px);
 }
