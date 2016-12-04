@@ -6,32 +6,7 @@
 <!-- <div id="mapid"></div> -->
 
 <div class="container">
-  <div id="sideBar-left" class="clicked-left">
-    <div class="searchBar">
-      <div id="search-input">
-          <div class="input-group col-md-12">
-              <input type="text" class="form-control input-lg" placeholder="Search" />
-              <span class="input-group-btn">
-                  <button class="btn-info btn-lg" type="button">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                  </button>
-              </span>
-          </div>
-      </div>
-    </div>
-    <div class="sideBar-tab">
-      <button class="btn-info btn-lg" id="leftside-btn" type="button">
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </button>
-    </div>
-    <div class="cover">
-      <img src="http://static.panoramio.com/photos/large/53625922.jpg" alt="" />
-    </div>
-    <div class="title">
-      <h3>Marston Science Library</h3>
-      <h5>Library</h5>
-    </div>
-  </div>
+  <%= render "sidebar" %>
   <a href="/signup"><button type="button" class="btn signup-btn" name="button">Sign Up</button></a>
   <button type="button" class="btn login-btn" name="button">Log In</button>
   <div class="login-container login-clicked-container">
