@@ -1,3 +1,22 @@
+.sideBar-body {
+  height: 100vh;
+  overflow-y: scroll;
+}
+.sideBar-body::-webkit-scrollbar {
+    /*display: none;*/
+    width: 4px;
+    /*background-color: #ff8080;*/
+}
+
+.sideBar-body::-webkit-scrollbar * {
+    background-color: #ff8080 !important;
+}
+
+.sideBar-body::-webkit-scrollbar-thumb {
+  background-color: #ff8080 !important; // manage scrollbar thumb background color here
+}
+
+
 #sideBar-left {
   position: absolute;
   left: 0px;
@@ -7,9 +26,10 @@
   border-right: 3px solid #ff8080;
   z-index: 1;
   -webkit-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
--moz-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
-transition: left 0.4s ease-in-out;
+  -moz-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
+  box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
+  transition: left 0.4s ease-in-out;
+  /*overflow-y: scroll;*/
 }
 
 #sideBar-left .cover img {
@@ -114,7 +134,7 @@ transition: left 0.4s ease-in-out;
 
 #icon-stats .stats-col {
   display: inline-block;
-  width: 24%;
+  width: 23.9%;
 }
 
 #icon-stats .fa , #icon-stats p{
@@ -123,7 +143,7 @@ transition: left 0.4s ease-in-out;
 
 #icon-stats .fa {
   color: #ff8080;
-  font-size: 30px;
+  font-size: 26px;
   margin-bottom: 10px;
   margin-left: 50%;
   transform: translateX(-50%);
@@ -135,5 +155,52 @@ transition: left 0.4s ease-in-out;
   font-size: 12px;
   text-align: center;
   margin-top: 0px;
+  margin-bottom: 0px;
   transform: translateY(-3px);
+}
+
+#popular {
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+#popular .popular-times-row {
+  height: 100px;
+}
+
+#popular .popular-container {
+  height: 70%;
+  width: 92%;
+  margin-left: 8%;
+  background-color: white;
+}
+
+#popular .hour {
+  display: inline-block;
+  background-color: #ff8080;
+  width: 14px;
+  margin-left: 3px;
+  height: 100%;
+  border-radius: 2px 2px 0px 0px;
+  -webkit-box-shadow: 0px 0px 0px 2px rgba(255,128,128,1);
+  -moz-box-shadow: 0px 0px 0px 2px rgba(255,128,128,1);
+  box-shadow: 0px 0px 0px 1px rgba(255,128,128,1);
+}
+
+#popular .time-row {
+  margin-left: 8%;
+}
+
+#popular .time {
+  display: inline-block;
+  padding: 2px 0px 0px 4px;
+  margin-right: 38px;
+  border-left: 1px solid #ff8080;
+  opacity: 0.5;
+}
+
+#popular p {
+  margin: 0;
+  font-size: 9px;
+  transform: translateY(1px);
 }
