@@ -21,17 +21,22 @@ class UserController < ApplicationController
     @connection = ActiveRecord::Base.connection
     if user_params[:prof_pic]
       uploaded_io = user_params[:prof_pic]
+      file_name = (0...15).map { ('a'..'z').to_a[rand(26)] }.join
       extn = File.extname  uploaded_io.original_filename
-      file_name = user_params[:first_name] + user_params[:last_name] + extn
+      file_name = file_name + extn
       File.open(Rails.root.join('public', 'uploads', file_name), 'wb') do |file|
         file.write(uploaded_io.read)
       end
     end
 
-    if user_params[:password]
+
+    case user_params
+    when user_params[:encrypted_password] && user_params[:img_path].nil?
+      @connection.execute("UPDATE users SET encrypted_password = '#{user_params[:encrypted_password]}' WHERE email = '#{session[:email]}'")
+    when user_params[:encrypted_password] && user_params[:img_path]
+      @connection.execute("UPDATE users SET img_path = '#{file_name}', encrypted_password = '#{user_params[:encrypted_password]}' WHERE email = '#{session[:email]}'")
+    when user_params[:encrypted_password].nil? && user_params[:img_path]
       @connection.execute("UPDATE users SET img_path = '#{file_name}' WHERE email = '#{session[:email]}'")
-    elsif user_params[:password] && user_params[:img_path]
-      @connection.execute("UPDATE users SET img_path = '#{file_name}', password = '#{user_params[:encrypted_password]}WHERE email = '#{session[:email]}'")
     end
 
     redirect_to '/'

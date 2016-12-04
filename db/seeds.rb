@@ -19,7 +19,7 @@ require "day.rb"
 require "restaurant_seed.rb"
 
 num_users = 500
-num_reviews = 500
+num_reviews = 5000
 
 puts "Connecting to UF Oracle DB Servers."
 @connection = ActiveRecord::Base.connection # Connect to the DB
@@ -241,7 +241,7 @@ if ENV["seed_users"]
     puts i.to_s + ' ' + first_name + ' ' + last_name + ' ' + email + ' ' + password
     begin
       @connection.execute("INSERT INTO users VALUES(
-                          '#{email}', '#{first_name}', '#{last_name}', '#{password}', NULL)")
+                          '#{email}', '#{first_name}', '#{last_name}', '#{password}', 'default.jpg')")
       i += 1
     rescue => error
       puts 'Could not create record'
@@ -272,7 +272,12 @@ if ENV["seed_map_objects"]
     city = props['CITY']
     state = props['STATE']
     zip = props['ZIP']
-    description = props['DESCRIPTION']
+
+    if props['DESCRIPTION'] == " "
+      description = Faker::Lorem.paragraph
+    else
+      description = props['DESCRIPTION'].gsub(/'/, ' ')
+    end
     url = props['URL']
     photo = props['PHOTO']
 
@@ -370,7 +375,6 @@ if ENV["seed_map_objects"]
     # puts "ITEM: "
     feature['geometry']['coordinates'][0].each do |point|
       if shape == 'Polygon'
-
         points << [point[1], point[0]] # latitude, longitude
         # puts "#{point[1]}, #{point[0]}"
       end

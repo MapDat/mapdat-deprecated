@@ -28,4 +28,5 @@ config/database.yml
 public/uploads/*
 
 # exception to the rule
-!public/uploads/.gitkeep
+!public/uploads/default.jpg
+!public/uploads/default_building.jpg

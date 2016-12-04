@@ -8,7 +8,7 @@ class Map_Object_Seed
     @id = id
     @name = name
     @description = description
-    @image_path = image_path
+    @image_path = "default_building.jpg"
     @abbrev = abbrev
 
     @connection = ActiveRecord::Base.connection
