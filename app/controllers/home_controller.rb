@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   require 'json'
+  require 'Date'
   #before_filter :authorize
 
   def index
@@ -61,39 +62,29 @@ class HomeController < ApplicationController
                                         WHERE m.id = b.object_id
                                         AND m.id = #{params[:object_id]}").first
 
+    @available_restaurants = @connection.exec_query("SELECT r.name, o.day, o.open_time, o.close_time
+                                                    FROM restaurant r, open_hours o, map_object m
+                                                    WHERE o.rest_id = r.id
+                                                    AND r.object_id = #{params[:object_id]}
+                                                    AND r.object_id = m.id
+                                                    AND o.day = '#{Date.today.strftime("%A")}'")
+
     @reviews = @connection.exec_query("SELECT r.title, r.content, r.review_date, r.rating, u.email, u.first_name, u.last_name, u.img_path
                                        FROM reviews r, map_object m, users u
                                        WHERE m.id = r.object_id
                                        AND m.id = #{params[:object_id]}
-                                       AND u.email = r.email")
+                                       AND u.email = r.email
+                                       ORDER BY r.review_date DESC")
 
     @avg_review = @connection.exec_query("SELECT AVG(rating) AS avg_review FROM reviews WHERE object_id = #{params[:object_id]}").first["avg_review"]
 
-    @pop_times = {}
-    7.times do |day|
-      pops = @connection.exec_query("SELECT hour, popularity FROM pop_times WHERE object_id = #{params[:object_id]} AND day = #{day}")
+    @review_group = @connection.exec_query("SELECT rating, count(rating) AS count FROM reviews WHERE object_id = 1000 GROUP BY rating ORDER BY rating DESC")
 
-      case day
-      when 0
-        @pop_times[:sunday] = pops.to_hash
-      when 1
-        @pop_times[:monday] = pops.to_hash
-      when 2
-        @pop_times[:tuesday] = pops.to_hash
-      when 3
-        @pop_times[:wednesday] = pops.to_hash
-      when 4
-        @pop_times[:thursday] = pops.to_hash
-      when 5
-        @pop_times[:friday] = pops.to_hash
-      when 6
-        @pop_times[:saturday] = pops.to_hash
-      end
-    end
+    days =  { "Sunday" => 0, "Monday" => 1, "Tuesday" => 2, "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 6 }
 
+    @pops = @connection.exec_query("SELECT hour, popularity FROM pop_times WHERE object_id = #{params[:object_id]} AND day = #{days[Date.today.strftime("%A")]}")
 
-
-    hash = { building: @building.to_hash, avg_review: @avg_review, reviews: @reviews.to_hash, pop_times: @pop_times.to_hash }
+    hash = { building: @building.to_hash, restaurants: @available_restaurants.to_hash, avg_review: @avg_review, review_group: @review_group.to_hash, reviews: @reviews.to_hash, pop_times: @pops.to_hash }
     render json: JSON.pretty_generate(hash)
   end
 end

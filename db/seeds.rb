@@ -203,11 +203,13 @@ if ENV["seed_restaurants"]
     CREATE TABLE open_hours(
     	id      		            int,
       object_id               int,
+      rest_id                 int,
     	day 	                	VARCHAR(9),
     	open_time 	            int,
     	close_time 	            int,
     	PRIMARY KEY (id),
-      FOREIGN KEY (object_id) REFERENCES map_object(id)
+      FOREIGN KEY (object_id) REFERENCES map_object(id),
+      FOREIGN KEY (rest_id) REFERENCES restaurant(id)
     )")
 end
 
@@ -416,17 +418,14 @@ if ENV["seed_restaurants"]
     object_id = @connection.exec_query("SELECT m.id FROM map_object m
                                         WHERE m.abbrev = '#{restaurants[key]['Location']}'")
 
-    if object_id.first.nil?
-      object_id = nil
-    else
-      object_id = object_id.rows[0][0]
-    end
+    object_id = object_id.first["id"]
     puts key
     open_hours = []
     restaurants[key].each do |key, value|
       next if key == 'Location'
       day = Day.new(key, value["open"], value["close"])
       open_hours << day
+      puts value["open"].to_s + ' ' + value["close"].to_s
     end
 
     begin
