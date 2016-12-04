@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   get '/settings' => 'user#show'
   post '/settings/update' => 'user#update'
 
+  post '/show_poi' => 'home#show_poi'
+  post '/hide_poi' => 'home#hide_poi'
+
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

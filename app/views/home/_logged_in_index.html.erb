@@ -30,6 +30,11 @@
     <div class="title">
       <h3>Marston Science Library</h3>
       <h4>Library</h4>
+      <% if params[:show_poi] == 'false' || params[:show_poi].nil? %>
+        <%= button_to "Show Points of Interest", show_poi_path, method: :post, params: { zoom: @zoom } %>
+      <% else %>
+        <%= button_to "Hide Points of Interest", hide_poi_path, method: :post, params: { zoom: @zoom } %>
+      <% end %>
     </div>
   </div>
   <div id="sideBar-right" class="clicked-right">
@@ -47,7 +52,7 @@
 
 <%= map(:center => {
     :latlng => [29.6481, -82.3441],
-    :zoom => 18
+    :zoom => @zoom
   },
   :polylines => @polylines
 ) %>
