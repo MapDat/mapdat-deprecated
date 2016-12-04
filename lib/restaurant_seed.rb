@@ -15,19 +15,15 @@ class Restaurant_Seed
   end
 
   def insert_restaurant
-    unless object_id.nil?
-      @connection.execute("INSERT INTO restaurant VALUES (#{@rest_id}, '#{@desc}',  '#{@name}', '#{@image_path}', #{@object_id})" )
-    else
-      @connection.execute("INSERT INTO restaurant VALUES (#{@rest_id}, '#{@desc}', '#{@name}', '#{@image_path}', '')")
-    end
+    @connection.execute("INSERT INTO restaurant VALUES (#{@rest_id}, '#{@desc}',  '#{@name}', '#{@image_path}', #{@object_id})" )
   end
 
   def insert_hours
     @hours.each do |day|
-      unless object_id.nil?
-        @connection.execute("INSERT INTO open_hours VALUES (#{@@hour_id}, #{@object_id}, '#{day.day}', #{day.open_hour}, #{day.close_hour})")
-      else
-        puts "FAILED TO ASSOCIATE HOUR WITH RESTAURANT. MISSING OBJECT_ID."
+      begin
+        @connection.execute("INSERT INTO open_hours VALUES (#{@@hour_id}, #{@object_id}, #{@rest_id}, '#{day.day}', #{day.open_hour}, #{day.close_hour})")
+      rescue => error
+        puts "FAILED TO ASSOCIATE HOUR WITH RESTAURANT. MISSING OBJECT_ID., #{error}"
       end
       @@hour_id += 1
     end
