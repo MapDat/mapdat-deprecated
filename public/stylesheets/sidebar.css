@@ -123,7 +123,7 @@ transition: left 0.4s ease-in-out;
 
 #icon-stats .fa {
   color: #ff8080;
-  font-size: 30px;
+  font-size: 26px;
   margin-bottom: 10px;
   margin-left: 50%;
   transform: translateX(-50%);
@@ -135,5 +135,6 @@ transition: left 0.4s ease-in-out;
   font-size: 12px;
   text-align: center;
   margin-top: 0px;
+  margin-bottom: 0px;
   transform: translateY(-3px);
 }
