@@ -12,8 +12,7 @@ class User
     @connection = ActiveRecord::Base.connection
     begin
       @connection.execute("INSERT INTO users VALUES(
-                          '#{@email}', '#{@first_name}', '#{@last_name}', '#{@encrypted_password}', NULL,
-                          NULL, NULL, NULL, NULL)")
+                          '#{@email}', '#{@first_name}', '#{@last_name}', '#{@encrypted_password}', NULL)")
       return true
     rescue => error
       return false

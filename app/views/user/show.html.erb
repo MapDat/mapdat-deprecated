@@ -1,0 +1,7 @@
+<%= form_for :user, url: '/settings/update' do |f| %>
+  First Name: <%= f.text_field :first_name %>
+  Last Name: <%= f.text_field :last_name %>
+  Password: <%= f.password_field :encrypted_password %>
+  Profile Picture: <%= f.file_field :prof_pic %>
+  <%= f.submit "Submit" %>
+<% end %>

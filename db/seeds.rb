@@ -32,20 +32,20 @@ if ENV["seed_map_objects"]
   puts "Dropping existing tables."
   # Drop the existing tables
   begin
-    puts "DROP TABLE geo_point"
-    @connection.execute("DROP TABLE geo_point")
+    puts "DROP TABLE geo_point CASCADE CONSTRAINTS"
+    @connection.execute("DROP TABLE geo_point CASCADE CONSTRAINTS")
   rescue => error
     puts error
   end
   begin
-    puts "DROP TABLE point_of_interest"
-    @connection.execute("DROP TABLE point_of_interest")
+    puts "DROP TABLE point_of_interest CASCADE CONSTRAINTS"
+    @connection.execute("DROP TABLE point_of_interest CASCADE CONSTRAINTS")
   rescue => error
     puts error
   end
   begin
     puts "DROP TABLE building"
-    @connection.execute("DROP TABLE building")
+    @connection.execute("DROP TABLE building CASCADE CONSTRAINTS")
   rescue => error
     puts error
   end
@@ -54,8 +54,8 @@ end
 
 if ENV["seed_restaurants"]
   begin
-    puts "DROP TABLE open_hours"
-    @connection.execute("DROP TABLE open_hours")
+    puts "DROP TABLE open_hours CASCADE CONSTRAINTS"
+    @connection.execute("DROP TABLE open_hours CASCADE CONSTRAINTS")
   rescue => error
     puts error
   end
@@ -63,8 +63,8 @@ end
 
 if ENV["seed_reviews"]
   begin
-    puts "DROP TABLE reviews"
-    @connection.execute("DROP TABLE reviews")
+    puts "DROP TABLE reviews CASCADE CONSTRAINTS"
+    @connection.execute("DROP TABLE reviews CASCADE CONSTRAINTS")
   rescue => error
     puts error
   end
@@ -72,8 +72,8 @@ end
 
 if ENV["seed_users"]
   begin
-    puts "DROP TABLE users"
-    @connection.execute("DROP TABLE users")
+    puts "DROP TABLE users CASCADE CONSTRAINTS "
+    @connection.execute("DROP TABLE users CASCADE CONSTRAINTS")
   rescue => error
     puts error
   end
@@ -81,8 +81,8 @@ end
 
 if ENV["seed_restaurants"]
   begin
-    puts "DROP TABLE restaurant"
-    @connection.execute("DROP TABLE restaurant")
+    puts "DROP TABLE restaurant CASCADE CONSTRAINTS"
+    @connection.execute("DROP TABLE restaurant CASCADE CONSTRAINTS")
   rescue => error
     puts error
   end
@@ -90,8 +90,8 @@ end
 
 if ENV["seed_pop_times"]
   begin
-    puts "DROP TABLE pop_times"
-    @connection.execute("DROP TABLE pop_times")
+    puts "DROP TABLE pop_times CASCADE CONSTRAINTS"
+    @connection.execute("DROP TABLE pop_times CASCADE CONSTRAINTS")
   rescue => error
     puts error
   end
@@ -99,8 +99,8 @@ end
 
 if ENV["seed_map_objects"]
   begin
-    puts "DROP TABLE map_object"
-    @connection.execute("DROP TABLE map_object")
+    puts "DROP TABLE map_object CASCADE CONSTRAINTS"
+    @connection.execute("DROP TABLE map_object CASCADE CONSTRAINTS")
   rescue => error
     puts error
   end
@@ -165,11 +165,7 @@ if ENV["seed_users"]
       first_name 			VARCHAR (255) NOT NULL,
       last_name 			VARCHAR (255) NOT NULL,
       encrypted_password 		VARCHAR (255) NOT NULL,
-      reset_password_token 	VARCHAR (255),
-      last_sign_in_at 		TIMESTAMP,
-      current_sign_in_at 		TIMESTAMP,
-      last_sign_in_ip 		VARCHAR (255),
-      current_sign_in_ip 		VARCHAR (255),
+      img_path        VARCHAR(255),
       PRIMARY KEY (email)
     )")
 end
@@ -245,8 +241,7 @@ if ENV["seed_users"]
     puts i.to_s + ' ' + first_name + ' ' + last_name + ' ' + email + ' ' + password
     begin
       @connection.execute("INSERT INTO users VALUES(
-                          '#{email}', '#{first_name}', '#{last_name}', '#{password}', NULL,
-                          NULL, NULL, NULL, NULL)")
+                          '#{email}', '#{first_name}', '#{last_name}', '#{password}', NULL)")
       i += 1
     rescue => error
       puts 'Could not create record'

@@ -22,3 +22,10 @@ config/database.yml
 
 # Ignore Byebug command history file.
 .byebug_history
+
+
+# exclude everything
+public/uploads/*
+
+# exception to the rule
+!public/uploads/.gitkeep

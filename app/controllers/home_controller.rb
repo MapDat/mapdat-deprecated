@@ -5,10 +5,9 @@ class HomeController < ApplicationController
   def index
     @connection = ActiveRecord::Base.connection
     @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
-                                       FROM map_object m, geo_point g
-                                       WHERE g.object_id = m.id
+                                       FROM map_object m, geo_point g, building b
+                                       WHERE g.object_id = m.id AND b.object_id = m.id
                                       ").rows
-
     @polylines = []
     @objects.each do |object|
       object_id = object[0]

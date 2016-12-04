@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get '/signup' => 'user#new'
   post '/users' => 'user#create'
+  get '/settings' => 'user#show'
+  post '/settings/update' => 'user#update'
 
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
