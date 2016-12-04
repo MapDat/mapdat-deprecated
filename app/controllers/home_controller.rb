@@ -32,6 +32,7 @@ class HomeController < ApplicationController
         @polylines[object_id][:latlngs] = []
       end
       @polylines[object_id][:latlngs] << [object[1], object[2]]
+      @polylines[object_id][:options] = { "clickable" => "true", "className" => object_id.to_s}
     end
 
     @polylines = @polylines.reject { |e| e.to_s.empty? }
@@ -43,5 +44,16 @@ class HomeController < ApplicationController
 
   def hide_poi
     redirect_to controller: 'home', action: 'index', show_poi: false, zoom: params[:zoom]
+  end
+
+  def building_info
+    @connection = ActiveRecord::Base.connection
+    @building = '{}' unless params[:object_id]
+
+    @building = @connection.exec_query("SELECT * FROM building b, map_object m
+                                        WHERE m.id = b.object_id
+                                        AND m.id = #{params[:object_id]}").first.to_json
+
+    render json: @building
   end
 end
