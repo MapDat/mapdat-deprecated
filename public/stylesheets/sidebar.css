@@ -1,3 +1,22 @@
+.sideBar-body {
+  height: 100vh;
+  overflow-y: scroll;
+}
+.sideBar-body::-webkit-scrollbar {
+    /*display: none;*/
+    width: 4px;
+    /*background-color: #ff8080;*/
+}
+
+.sideBar-body::-webkit-scrollbar * {
+    background-color: #ff8080 !important;
+}
+
+.sideBar-body::-webkit-scrollbar-thumb {
+  background-color: #ff8080 !important; // manage scrollbar thumb background color here
+}
+
+
 #sideBar-left {
   position: absolute;
   left: 0px;
@@ -7,9 +26,10 @@
   border-right: 3px solid #ff8080;
   z-index: 1;
   -webkit-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
--moz-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
-transition: left 0.4s ease-in-out;
+  -moz-box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
+  box-shadow: -5px 0px 27px 7px rgba(0,0,0,0.26);
+  transition: left 0.4s ease-in-out;
+  /*overflow-y: scroll;*/
 }
 
 #sideBar-left .cover img {
@@ -114,7 +134,7 @@ transition: left 0.4s ease-in-out;
 
 #icon-stats .stats-col {
   display: inline-block;
-  width: 24%;
+  width: 23.9%;
 }
 
 #icon-stats .fa , #icon-stats p{
