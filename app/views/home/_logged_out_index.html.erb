@@ -12,7 +12,7 @@
           <div class="input-group col-md-12">
               <input type="text" class="form-control input-lg" placeholder="Search" />
               <span class="input-group-btn">
-                  <button class="btn btn-info btn-lg" type="button">
+                  <button class="btn-info btn-lg" type="button">
                     <i class="fa fa-search" aria-hidden="true"></i>
                   </button>
               </span>
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="sideBar-tab">
-      <button class="btn btn-info btn-lg" id="leftside-btn" type="button">
+      <button class="btn-info btn-lg" id="leftside-btn" type="button">
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
       </button>
     </div>
@@ -32,7 +32,8 @@
       <h5>Library</h5>
     </div>
   </div>
-  <button type="button" class="login-btn" name="button">Log In</button>
+  <a href="/signup"><button type="button" class="btn signup-btn" name="button">Sign Up</button></a>
+  <button type="button" class="btn login-btn" name="button">Log In</button>
   <div class="login-container login-clicked-container">
     <%= render "sessions/form" %>
   </div>
@@ -64,6 +65,7 @@ $(document).ready(function(){
         $('.login-container').toggleClass('login-clicked-container');
         $('input').toggleClass('login-clicked-form');
         $('h4').toggleClass('login-clicked-h4');
+        $('.signup-btn').toggleClass('login-clicked-signup');
       });
 
       map.zoomControl.setPosition('bottomright');
