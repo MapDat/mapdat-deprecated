@@ -1,13 +1,25 @@
 <%= form_for :user, url: '/review/new' do |f| %>
-  1 <%= f.radio_button :rating, 1 %>
-  2 <%= f.radio_button :rating, 2 %>
-  3 <%= f.radio_button :rating, 3 %>
-  4 <%= f.radio_button :rating, 4 %>
-  5 <%= f.radio_button :rating, 5 %>
-  Review Title: <%= f.text_field :title %>
-  Review: <%= f.text_field :content %>
+  <%= f.radio_button :rating, 1 %>
+  <i class="fa fa-star star1" aria-hidden="true"></i> 1
+
+  <%= f.radio_button :rating, 2 %>
+  <i class="fa fa-star" aria-hidden="true"></i> 2
+
+  <%= f.radio_button :rating, 3 %>
+  <i class="fa fa-star" aria-hidden="true"></i> 3
+
+  <%= f.radio_button :rating, 4 %>
+  <i class="fa fa-star" aria-hidden="true"></i> 4
+
+<%= f.radio_button :rating, 5 %>
+<i class="fa fa-star" aria-hidden="true"></i> 5
+
+  <!-- Review Title: <%= f.text_field :title %> -->
+  <%= f.text_area :content %>
   <div id="divCheckbox" style="display: none;">
-  <%= f.text_field :object_id, :id => "review_obj" %>
+  <%= f.text_area :object_id, :id => "review_obj" %>
   </div>
-  <%= f.submit "Submit" %>
+  <div class="submit-button">
+    <%= f.submit "Submit" %>
+  </div>
 <% end %>
