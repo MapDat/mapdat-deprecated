@@ -28,8 +28,8 @@
       <img src="http://static.panoramio.com/photos/large/53625922.jpg" alt="" />
     </div>
     <div class="title">
-      <h3>Marston Science Library</h3>
-      <h4>Library</h4>
+      <h3 id="name">Marston Science Library</h3>
+      <h4 id="description">Library</h4>
       <% if params[:show_poi] == 'false' || params[:show_poi].nil? %>
         <%= button_to "Show Points of Interest", show_poi_path, method: :post, params: { zoom: @zoom } %>
       <% else %>
@@ -56,34 +56,60 @@
   },
   :polylines => @polylines
 ) %>
+
 <script>
+
+function toggleLeftSidebar(){
+  if( $('#sideBar-left').hasClass('clicked-left')){
+    $('#sideBar-left').removeClass('clicked-left');
+  } else {
+    $('#sideBar-left').addClass('clicked-left');
+  }
+};
+
+function toggleAccountSidebar(){
+  if( $('#sideBar-right').hasClass('clicked-right')){
+    $('#sideBar-right').removeClass('clicked-right');
+    $('.account-btn').removeClass('account-clicked');
+  } else {
+    $('#sideBar-right').addClass('clicked-right');
+    $('.account-btn').addClass('account-clicked');
+  }
+};
+
+function fillLeftSidebar(e) {
+    var classId = e.target.classList[0];
+    var sidebarTitle = $(".title #name");
+    var sidebarDescription = $(".title #description");
+    var sidebarImage = $(".cover img");
+    $.getJSON("/info?object_id=" + classId, function(data){
+      sidebarTitle.text(data.building.name);
+      sidebarDescription.text(data.building.description);
+      // sidebarImage.attr("src", "public/uploads/"+data.building.image_path);
+    });
+ };
+
 $(document).ready(function(){
-      $('#leftside-btn').click(function(){
-        if( $('#sideBar-left').hasClass('clicked-left')){
-          $('#sideBar-left').removeClass('clicked-left');
-        } else {
-          $('#sideBar-left').addClass('clicked-left');
-        }
-          console.log("AWWWW YEAHHHH");
-      });
-
-      $('.account-btn').click(function(){
-        if( $('#sideBar-right').hasClass('clicked-right')){
-          $('#sideBar-right').removeClass('clicked-right');
-          $('.account-btn').removeClass('account-clicked');
-        } else {
-          $('#sideBar-right').addClass('clicked-right');
-          $('.account-btn').addClass('account-clicked');
-        }
-          console.log("AWWWW YEAHHHH");
-      });
-
-      map.zoomControl.setPosition('bottomright');
-
+  map.zoomControl.setPosition('bottomright');
  });
 
- $("path").click(function() {
-    var myClass = $(this).attr("class");
-    alert(myClass);
- });
+$('#leftside-btn').click(function(){
+  toggleLeftSidebar();
+});
+
+$('.account-btn').click(function(){
+  toggleAccountSidebar();
+});
+
+$(".leaflet-container").click(function(e){
+  // If the item selected in a building
+  if(e.toElement.nodeName === "path"){
+    // Open left sidebar
+    $('#sideBar-left').removeClass('clicked-left');
+    fillLeftSidebar(e);
+  } else {
+    // Close left sidebar
+    $('#sideBar-left').addClass('clicked-left');
+  }
+});
 </script>
