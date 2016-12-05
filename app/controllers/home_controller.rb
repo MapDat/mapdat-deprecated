@@ -37,8 +37,7 @@ class HomeController < ApplicationController
                                          WHERE g.object_id
                                          IN (SELECT r.object_id FROM building b, map_object m, restaurant r
                                          WHERE m.id = b.object_id
-                                         AND m.id = r.object_id
-                                         AND b.study_space = 1)").rows
+                                         AND m.id = r.object_id)").rows
     elsif params[:show_north_museum] == "true"
       @objects = @connection.exec_query("SELECT m.id, p.longitude, p.latitude
                                          FROM building b, map_object m, geo_point p
@@ -117,7 +116,7 @@ class HomeController < ApplicationController
 
     @avg_review = @connection.exec_query("SELECT AVG(rating) AS avg_review FROM reviews WHERE object_id = #{params[:object_id]}").first["avg_review"]
 
-    @review_group = @connection.exec_query("SELECT rating, count(rating) AS count FROM reviews WHERE object_id = 1000 GROUP BY rating ORDER BY rating DESC")
+    @review_group = @connection.exec_query("SELECT rating, count(rating) AS count FROM reviews WHERE object_id = #{params[:object_id]} GROUP BY rating ORDER BY rating DESC")
 
     days =  { "Sunday" => 0, "Monday" => 1, "Tuesday" => 2, "Wednesday" => 3, "Thursday" => 4, "Friday" => 5, "Saturday" => 6 }
 

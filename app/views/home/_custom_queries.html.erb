@@ -20,9 +20,9 @@
 <% end %>
 
 <% if params[:show_food_and_study] == 'false' || params[:show_food_and_study].nil? %>
-  <%= button_to "Show me buildings that have study space and all the places to get food in those buildings", show_food_and_study_path, method: :post, params: { zoom: @zoom } %>
+  <%= button_to "Show me buildings that have food", show_food_and_study_path, method: :post, params: { zoom: @zoom } %>
 <% else %>
-  <%= button_to "Hide buildings that have study space and all the places to get food in those buildings. ", hide_food_and_study_path, method: :post, params: { zoom: @zoom } %>
+  <%= button_to "Hide buildings that have food", hide_food_and_study_path, method: :post, params: { zoom: @zoom } %>
 <% end %>
 
 <% if params[:show_north_museum] == 'false' || params[:show_north_museum].nil? %>
