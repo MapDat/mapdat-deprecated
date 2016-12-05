@@ -87,4 +87,11 @@ class HomeController < ApplicationController
     hash = { building: @building.to_hash, restaurants: @available_restaurants.to_hash, avg_review: @avg_review, review_group: @review_group.to_hash, reviews: @reviews.to_hash, pop_times: @pops.to_hash }
     render json: JSON.pretty_generate(hash)
   end
+
+  def add_review
+    authorize
+    @connection = ActiveRecord::Base.connection
+    @connection.execute("INSERT INTO reviews VALUES ('#{session[:email]}', #{params[:user][:object_id]}, '#{params[:user][:content]}', to_date('#{Time.now.strftime('%Y%m%d')}', 'yyyymmdd'), '#{params[:user][:title]}', #{params[:user][:rating]})")
+    redirect_to '/'
+  end
 end
