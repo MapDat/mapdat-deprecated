@@ -147,7 +147,35 @@ body {
   background-color: #ff8080;
   border-radius: 10px;
   color: white;
-  margin-right: 20px;
+  margin-right: 7px;
+}
+
+.custom-queries {
+  padding: 20px;
+}
+
+.custom-queries h4 {
+  color: #444;
+  font-weight: normal;
+}
+
+.custom-queries .fa {
+  color: #ff8080;
+  font-weight: normal;
+  font-size: 19px;
+}
+
+.custom-queries input {
+  color: white;
+  background-color: #ff8080;
+  border: 0px solid white;
+  word-wrap: break-word;
+  padding: 12px 17px;
+  font-size: 12px;
+  white-space: normal;
+  text-align: left;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 button:active, button:focus {
