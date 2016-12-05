@@ -222,7 +222,8 @@
 }
 
 #reviews .total-ratings {
-  margin-top: 20px
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #reviews .total-ratings .rating-row {
