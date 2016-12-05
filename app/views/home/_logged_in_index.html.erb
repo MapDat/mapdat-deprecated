@@ -208,10 +208,14 @@ function fillIcons(data){
   // Boolean to indicate if study space
   if(data.building.study_space === 0){
     studying.hide();
+  } else {
+    studying.show();
   }
   // Boolean to indicate if it has computers
   if(data.building.computers === 0){
     computers.hide();
+  } else {
+    computers.show();
   }
 }
 
