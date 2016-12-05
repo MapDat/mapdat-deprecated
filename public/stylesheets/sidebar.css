@@ -79,6 +79,10 @@
   font-size: 20px;
 }
 
+#review-row {
+  width: auto;
+}
+
 #review-row .review {
   margin: 10px 0px;
   margin-right: 6px;
@@ -203,4 +207,57 @@
   margin: 0;
   font-size: 9px;
   transform: translateY(1px);
+}
+
+#reviews {
+  padding: 20px 20px;
+  height: 300px;
+}
+
+#reviews .avg-rating {
+  background-color: #ff8080;
+  border-radius: 8px;
+  width: 74%;
+  padding-left: 10px;
+}
+
+#reviews .total-ratings {
+  margin-top: 20px
+}
+
+#reviews .total-ratings .rating-row {
+  height: 30px;
+  margin-bottom: 4px;
+}
+
+#reviews .total-ratings .rating-row p {
+  display: inline-block;
+  width: 10px;
+  margin: 0px;
+  margin-top: 2px;
+  transform: translateY(-9px);
+  margin-left: 20px;
+  opacity: 0.3;
+}
+
+#reviews .total-ratings .rating-row .fa {
+  transform: translateY(-9px);
+  opacity: 0.3;
+}
+
+#reviews .total-ratings .rating-row .percentage{
+  display: inline-block;
+  height: 100%;
+  width: 67%;
+  background-color: #ff8080;
+  margin-left: 4px;
+  border-radius: 0px 8px 8px 0px;
+}
+
+#reviews .total-ratings .rating-row .total-count {
+  margin-left: 0;
+  text-align: right;
+  transform: translateX(-30px) translateY(-9px);
+  opacity: 1;
+  color: white;
 }

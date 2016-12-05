@@ -25,18 +25,7 @@
     </div>
     <div class="title">
       <h3>Marston Science Library</h3>
-      <div id="review-row">
-        <p class="review">4.6</p>
-        <div class="avg-review-stars">
-          <i class="fa fa-star star1" aria-hidden="true"></i>
-          <i class="fa fa-star star2" aria-hidden="true"></i>
-          <i class="fa fa-star star3" aria-hidden="true"></i>
-          <i class="fa fa-star star4" aria-hidden="true"></i>
-          <i class="fa fa-star star5" aria-hidden="true"></i>
-        </div>
-        <div class="circle-divider"></div>
-        <p class="review total">12 reviews</p>
-      </div>
+      <%= render "rating" %>
     </div>
       <div id="description">
         <p>The University of Florida Marston Science Library
@@ -46,9 +35,48 @@
           Libraries system</p>
       </div>
       <div class="divider"></div>
+      <div id="reviews">
+        <div class="avg-rating">
+          <%= render "rating" %>
+        </div>
+        <div class="total-ratings">
+          <div class="rating-row">
+            <p>5</p>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <div class="percentage"></div>
+            <p class="total-count">20</p>
+          </div>
+          <div class="rating-row">
+            <p>4</p>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <div class="percentage" style="width: 40%;"></div>
+            <p class="total-count">20</p>
+          </div>
+          <div class="rating-row">
+            <p>3</p>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <div class="percentage" style="width: 30%;"></div>
+            <p class="total-count">20</p>
+          </div>
+          <div class="rating-row">
+            <p>2</p>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <div class="percentage" style="width: 10%;"></div>
+            <p class="total-count">20</p>
+          </div>
+          <div class="rating-row">
+            <p>1</p>
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <div class="percentage" style="width: 3%;"></div>
+            <p class="total-count">20</p>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
       <%= render "popular-times" %>
       <div class="divider"></div>
       <%= render "icon-stats" %>
       <div class="divider"></div>
+
   </div>
 </div>
