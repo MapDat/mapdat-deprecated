@@ -32,6 +32,19 @@ class HomeController < ApplicationController
                                         AND (SELECT count(*) FROM restaurant re WHERE re.object_id = b.object_id) > 2
                                         ORDER BY rating
                                         DESC").rows
+    elsif params[:show_food_and_study] == "true"
+      @objects = @connection.exec_query("SELECT g.object_id, g.longitude, g.latitude FROM geo_point g
+                                         WHERE g.object_id
+                                         IN (SELECT r.object_id FROM building b, map_object m, restaurant r
+                                         WHERE m.id = b.object_id
+                                         AND m.id = r.object_id
+                                         AND b.study_space = 1)").rows
+    elsif params[:show_north_museum]
+      @objects = @connection.exec_query("SELECT m.id, p.longitude, p.latitude
+                                         FROM building b, map_object m, geo_point p
+                                         WHERE m.id = b.object_id
+                                         AND m.id = p.object_id
+                                         AND p.longitude >= 29.6449").rows
     else
       @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
                                          FROM map_object m, geo_point g, building b
@@ -126,6 +139,22 @@ class HomeController < ApplicationController
 
   def hide_query3
     redirect_to controller: 'home', action: 'index', show_query3: false
+  end
+
+  def show_food_and_study
+    redirect_to controller: 'home', action: 'index', show_food_and_study: true
+  end
+
+  def hide_food_and_study
+    redirect_to controller: 'home', action: 'index', show_food_and_study: false
+  end
+
+  def show_north_museum
+    redirect_to controller: 'home', action: 'index', show_north_museum: false
+  end
+
+  def hide_north_museum
+    redirect_to controller: 'home', action: 'index', show_north_museum: false
   end
 
 end

@@ -28,10 +28,22 @@
       <%= button_to "Hide Show me buildings on the south side of campus that have both computers and study space.", hide_south_study_path, method: :post, params: { zoom: @zoom } %>
     <% end %>
 
-    <% if params[:show_query3] == 'false' || params[:show_qery3].nil? %>
+    <% if params[:show_query3] == 'false' || params[:show_query3].nil? %>
       <%= button_to "Show buildings with a rating over 3 and has more than 2 restaurants", show_query3_path, method: :post, params: { zoom: @zoom } %>
     <% else %>
-      <%= button_to "Show buildings with a rating over 3 and has more than 2 restaurants", show_query3_path, method: :post, params: { zoom: @zoom } %>
+      <%= button_to "Hide buildings with a rating over 3 and has more than 2 restaurants", hide_query3_path, method: :post, params: { zoom: @zoom } %>
+    <% end %>
+
+    <% if params[:show_food_and_study] == 'false' || params[:show_food_and_study].nil? %>
+      <%= button_to "Show me buildings that have study space and all the places to get food in those buildings", show_food_and_study_path, method: :post, params: { zoom: @zoom } %>
+    <% else %>
+      <%= button_to "Hide buildings that have study space and all the places to get food in those buildings. ", hide_food_and_study_path, method: :post, params: { zoom: @zoom } %>
+    <% end %>
+
+    <% if params[:show_north_museum] == 'false' || params[:show_north_museum].nil? %>
+      <%= button_to "Show me the buildings that are north of Museum Road", show_north_museum_path, method: :post, params: { zoom: @zoom } %>
+    <% else %>
+      <%= button_to "Hide the buildings that are north of Museum Road", hide_north_museum_path, method: :post, params: { zoom: @zoom } %>
     <% end %>
     </div>
   </div>

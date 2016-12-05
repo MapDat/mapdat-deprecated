@@ -21,6 +21,11 @@ Rails.application.routes.draw do
   post '/show_query3' => 'home#show_query3'
   post '/hide_query3' => 'home#hide_query3'
 
+  post '/show_food_and_study' => 'home#show_food_and_study'
+  post '/hide_food_and_study' => 'home#hide_food_and_study'
+
+  post '/show_north_museum' => 'home#show_north_museum'
+  post '/hide_north_museum'=> 'home#hide_north_museum'
 
   get '/info' => 'home#building_info'
 
