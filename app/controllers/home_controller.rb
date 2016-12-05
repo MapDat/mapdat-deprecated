@@ -32,6 +32,37 @@ class HomeController < ApplicationController
                                         AND (SELECT count(*) FROM restaurant re WHERE re.object_id = b.object_id) > 2
                                         ORDER BY rating
                                         DESC").rows
+    elsif params[:show_food_and_study] == "true"
+      @objects = @connection.exec_query("SELECT g.object_id, g.longitude, g.latitude FROM geo_point g
+                                         WHERE g.object_id
+                                         IN (SELECT r.object_id FROM building b, map_object m, restaurant r
+                                         WHERE m.id = b.object_id
+                                         AND m.id = r.object_id
+                                         AND b.study_space = 1)").rows
+    elsif params[:show_north_museum] == "true"
+      @objects = @connection.exec_query("SELECT m.id, p.longitude, p.latitude
+                                         FROM building b, map_object m, geo_point p
+                                         WHERE m.id = b.object_id
+                                         AND m.id = p.object_id
+                                         AND p.longitude >= 29.6449").rows
+
+    elsif params[:show_7am]
+      @objects = @connection.exec_query("SELECT g.object_id, g.longitude, g.latitude FROM geo_point g
+                                         WHERE g.object_id
+                                         IN (SELECT r.object_id FROM restaurant r, open_hours h
+                                         WHERE h.day = 'Tuesday'
+                                         AND r.id = h.rest_id
+                                         AND h.open_time <= 700)").rows
+
+    elsif params[:show_best_places]
+      @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
+                                         FROM map_object m, geo_point g
+                                         WHERE m.id = g.object_id AND m.id IN
+                                         (SELECT r.object_id
+                                         FROM reviews r GROUP BY r.object_id
+                                         HAVING AVG(r.rating) > 4
+                                         )")
+
     else
       @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
                                          FROM map_object m, geo_point g, building b
@@ -126,6 +157,38 @@ class HomeController < ApplicationController
 
   def hide_query3
     redirect_to controller: 'home', action: 'index', show_query3: false
+  end
+
+  def show_food_and_study
+    redirect_to controller: 'home', action: 'index', show_food_and_study: true
+  end
+
+  def hide_food_and_study
+    redirect_to controller: 'home', action: 'index', show_food_and_study: false
+  end
+
+  def show_north_museum
+    redirect_to controller: 'home', action: 'index', show_north_museum: true
+  end
+
+  def hide_north_museum
+    redirect_to controller: 'home', action: 'index', show_north_museum: false
+  end
+
+  def show_7am
+    redirect_to controller: 'home', action: 'index', show_7am: true
+  end
+
+  def hide_7am
+    redirect_to controller: 'home', action: 'index', show_7am: false
+  end
+
+  def show_best_places
+    redirect_to controller: 'home', action: 'index', show_best_places: true
+  end
+
+  def hide_best_places
+    redirect_to controller: 'home', action: 'index', show_best_places: false
   end
 
 end

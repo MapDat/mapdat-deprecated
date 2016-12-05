@@ -8,255 +8,31 @@
   <%= render "sidebar" %>
     <div id="sideBar-right" class="clicked-right">
     <div class="top-row">
-      <h3>Hey there, <%= current_user[:first_name] %></h3>
+      <h3>Hey there, <span id="user-name">Vincent</span></h3>
       <%= button_to "About", method: :get%>
       <%= button_to "Logout", logout_path, method: :get%>
       <%= button_to "Settings", settings_path, method: :get %>
     </div>
-    <div class="custom-queries">
-      <h4><i class="fa fa-filter" aria-hidden="true"></i>
-        Useful Filters</h4>
-    <% if params[:show_poi] == 'false' || params[:show_poi].nil? %>
-      <%= button_to "Show Points of Interest", show_poi_path, method: :post, params: { zoom: @zoom } %>
-    <% else %>
-      <%= button_to "Hide Points of Interest", hide_poi_path, method: :post, params: { zoom: @zoom } %>
-    <% end %>
-
-    <% if params[:show_south_study] == 'false' || params[:show_south_study].nil? %>
-      <%= button_to "Show me buildings on the south side of campus\n that have both computers and study space.", show_south_study_path, method: :post, params: { zoom: @zoom } %>
-    <% else %>
-      <%= button_to "Hide Show me buildings on the south side of campus that have both computers and study space.", hide_south_study_path, method: :post, params: { zoom: @zoom } %>
-    <% end %>
-
-    <% if params[:show_query3] == 'false' || params[:show_qery3].nil? %>
-      <%= button_to "Show buildings with a rating over 3 and has more than 2 restaurants", show_query3_path, method: :post, params: { zoom: @zoom } %>
-    <% else %>
-      <%= button_to "Show buildings with a rating over 3 and has more than 2 restaurants", show_query3_path, method: :post, params: { zoom: @zoom } %>
-    <% end %>
-    </div>
+    <%= render 'custom_queries' %>
   </div>
+
   <button type="button" class="account-btn account-clicked" name="button">
     <!-- <img src="" alt=""> -->
   </button>
 </div>
 
-<%= map(:center => {
-    :latlng => [29.6481, -82.3441],
-    :zoom => @zoom
-  },
-  :polylines => @polylines
-) %>
-
 <script>
 
-function toggleLeftSidebar(){
-  if( $('#sideBar-left').hasClass('clicked-left')){
-    $('#sideBar-left').removeClass('clicked-left');
-    $(".fa-chevron-right").addClass('clicked-chevron');
-  } else {
-    $('#sideBar-left').addClass('clicked-left');
-    $(".fa-chevron-right").removeClass('clicked-chevron');
+  function fillUserSidebar(){
+   $.getJSON("/user_info", function(user){
+     $("#user-name").text(user.first_name);
+     $(".account-btn").css("background-image", "url(/assets/" + user.img_path + ")");
+   });
+  };
 
-  }
-};
-
-function toggleAccountSidebar(){
-  if( $('#sideBar-right').hasClass('clicked-right')){
-    $('#sideBar-right').removeClass('clicked-right');
-    $('.account-btn').removeClass('account-clicked');
-  } else {
-    $('#sideBar-right').addClass('clicked-right');
-    $('.account-btn').addClass('account-clicked');
-  }
-};
-
-function fillHeader(data){
-  var title = $(".title-h3");
-  var description = $("#description p");
-  var image = $(".sideBar-body img");
-  title.text(data.building.name);
-  description.text(data.building.description);
-  // Set Image Path
-  image.attr("src", "/assets/" + data.building.image_path);
-}
-
-function sizePopularTimesBars(data){
-  var popularTimes = $(".popular-container");
-  var popularBars = popularTimes.children();
-  for(var i = 0; i < popularBars.length; i++){
-    var bar = $("#"+i);
-    bar.css("height", (data.pop_times[i].popularity*10)+"%");
-  }
-}
-
-function createIndividualReview(data){
-  var indvReview = $(".indv-review");
-  for(var i = 0; i < data.reviews.length; i++){
-    var review = data.reviews[i];
-    var reviewHTML = "<img src=\"/assets/" + review.img_path + "\" alt=\"\">\
-      <div class=\"commentor\">\
-      <h3>" + review.first_name + " " + review.last_name + "</h3>\
-      <div class=\"avg-review-stars\">";
-    for(var j = 1; j <= 5; j++){
-      if(j <= review.rating){
-        reviewHTML += "<i class=\"fa fa-star star" + j;
-      } else {
-        reviewHTML += "<i class=\"fa fa-star-o star" + j;
-      }
-      reviewHTML += "\" aria-hidden=\"true\"></i>";
-    }
-    reviewHTML += "</div></div><p>" + review.content + "</p>";
-    if(i !== data.restaurants.length - 1){
-      reviewHTML += "<div class=\"divider\"></div>";
-    }
-    reviewHTML += "</div>";
-    indvReview.append(reviewHTML);
-  }
-}
-
-function fillReviewTotals(data){
-  var ratingRows = $(".total-ratings .percentage");
-  var ratingTotal = $(".total-ratings .total-count");
-  var ratings = [0, 0, 0, 0, 0];
-  ratingRows.css("width", "10%");
-  ratingTotal.text(0);
-  for(var i = 0; i < data.reviews.length; i++){
-    var review = data.reviews[i];
-    if(review.rating === 1){ratings[0] += 1};
-    if(review.rating === 2){ratings[1] += 1};
-    if(review.rating === 3){ratings[2] += 1};
-    if(review.rating === 4){ratings[3] += 1};
-    if(review.rating === 5){ratings[4] += 1};
-  }
-  ratingRows.each(function(index){
-    var width = (ratings[index] / data.reviews.length)*67 + 10;
-    $(this).css("width", width + "%");
-  });
-  ratingTotal.each(function(index){
-    $(this).text(ratings[index]);
-  });
-}
-
-function fillReviews(data){
-  fillReviewTotals(data);
-  var indvReview = $(".indv-review");
-  var reviewAvg = $("p#avg-review");
-  var reviewTotal = $(".total");
-  var stars_full = Math.floor(data.avg_review);
-  var stars_half = Math.round(data.avg_review);
-  indvReview.empty();
-  reviewAvg.text(Math.round(data.avg_review*10)/10);
-  reviewTotal.text(data.reviews.length + " reviews");
-  for(var i = 1; i <= 5; i++){
-    if(i <= stars_full){
-      $(".star"+i).addClass("fa-star");
-      $(".star"+i).removeClass("fa-star-o");
-      $(".star"+i).removeClass("fa-star-half-o");
-    } else if(i == stars_half){
-      $(".star"+i).addClass("fa-star-half-o");
-      $(".star"+i).removeClass("fa-star");
-      $(".star"+i).removeClass("fa-star-0");
-    } else {
-      $(".star"+i).addClass("fa-star-o");
-      $(".star"+i).removeClass("fa-star");
-      $(".star"+i).removeClass("fa-star-half-o");
-    }
-  }
-  createIndividualReview(data);
-}
-
-function formatTime(time){
-  var minutes = time % 100;
-  var hour = (time - minutes)/100;
-  var formatted = "";
-  var tod;
-  if(hour >= 12){
-    if(hour !== 12){ hour -= 12 }
-    tod = "pm";
-  } else {
-    tod = "am";
-  }
-  if(minutes == 0){ minutes = "00" }
-  return hour + ":" + minutes + tod;
-}
-
-function fillRestaurants(data){
-  var newRestaurant = $("#new-restaurant");
-  var count = $("#restaurant-count");
-  count.text(data.restaurants.length);
-  newRestaurant.empty();
-  for(var i = 0; i < data.restaurants.length; i++){
-    var restaurant = data.restaurants[i];
-    var open = formatTime(restaurant.open_time);
-    var close = formatTime(restaurant.close_time);
-    var restaurantHTML = "<div class=\"single\"> \
-        <h3>" + restaurant.name + "</h3> \
-        <i class=\"fa fa-clock-o\" aria-hidden=\"true\"></i> \
-        <h6>" + open + " - " + close + "</h6>"
-    if(i !== data.restaurants.length - 1){
-      restaurantHTML += "<div class=\"divider\"></div>";
-    }
-    restaurantHTML += "</div>";
-    newRestaurant.append(restaurantHTML);
-  }
-}
-
-function fillIcons(data){
-  var floors = $("#floors");
-  var outlets = $("#outlets");
-  var studying = $("#studying");
-  var computers = $("#computers");
-  floors.text(data.building.number_of_floors);
-  outlets.text(data.building.number_of_outlets);
-  // Boolean to indicate if study space
-  if(data.building.study_space === 0){
-    studying.hide();
-  }
-  // Boolean to indicate if it has computers
-  if(data.building.computers === 0){
-    computers.hide();
-  }
-}
-
-function fillLeftSidebar(e) {
-    var classId = e.target.classList[0];
-    $("#review_obj").val(classId);
-    $.getJSON("/info?object_id=" + classId, function(data){
-      // Fill building info
-      fillHeader(data);
-      // Size Popular Times
-      sizePopularTimesBars(data);
-      // Fill Review Data
-      fillReviews(data);
-      // Fill Restaurant Data
-      fillRestaurants(data);
-      // Fill Icon Data
-      fillIcons(data);
-    });
- };
-
-$('#leftside-btn').click(function(){
-  toggleLeftSidebar();
-});
-
-$('.account-btn').click(function(){
-  toggleAccountSidebar();
-});
-
-$(".leaflet-container").click(function(e){
-  // If the item selected in a building
-  if(e.toElement.nodeName === "path"){
-    // Open left sidebar
-    $('#sideBar-left').removeClass('clicked-left');
-    fillLeftSidebar(e);
-  } else {
-    // Close left sidebar
-    $('#sideBar-left').addClass('clicked-left');
-  }
-});
-
-$(document).ready(function(){
-  map.zoomControl.setPosition('bottomright');
- });
+  $(document).ready(function(){
+    fillUserSidebar();
+    map.zoomControl.setPosition('bottomright');
+   });
 
 </script>
