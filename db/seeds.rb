@@ -311,7 +311,12 @@ if ENV["seed_map_objects"]
   geo_buildings.each do |geo_building|
     begin
       Map_Object_Seed.new(id, geo_building[:name], geo_building[:abbrev], geo_building[:desc], ' ')
-      Building_Seed.new(id, 0, 1, 1, 5, id)
+      w = Random.new.rand(0..50)
+      x = Random.new.rand(0..1)
+      y = Random.new.rand(0..1)
+      z = Random.new.rand(0..6)
+
+      Building_Seed.new(id, w, x, y, z, id)
       geo_building[:geo_points].each do |geo_point|
         Geo_Point_Seed.new(geo_id, geo_point[1], geo_point[0], id)
         geo_id += 1
