@@ -24,9 +24,11 @@
       <img src="http://static.panoramio.com/photos/large/53625922.jpg" alt="" />
     </div>
     <div class="title">
-      <h3>Marston Science Library</h3>
+      <img class="title-thumb" src="http://static.panoramio.com/photos/large/53625922.jpg" alt="" />
+      <h3 class="title-h3">Marston Science Library</h3>
       <%= render "rating" %>
     </div>
+    <div class="sideBar-white">
       <div id="description">
         <p>The University of Florida Marston Science Library
           is the science and engineering library of the University
@@ -42,5 +44,27 @@
       <%= render "restaurant" %>
       <div class="divider"></div>
       <%= render "reviews" %>
+    </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  var wrap = $(".sideBar-body");
+  wrap.on("scroll", function(e) {
+
+    if (this.scrollTop > 282) {
+      console.log("AWWWWW");
+      $(".title").addClass("title-locked");
+      $("#review-row").addClass("title-locked-review");
+      $(".sideBar-white").addClass("title-locked-white");
+      $(".title-thumb").addClass("title-thumb-locked");
+      $(".title-h3").addClass("title-h3-locked");
+    } else {
+      $(".title").removeClass("title-locked");
+      $("#review-row").removeClass("title-locked-review");
+      $(".sideBar-white").removeClass("title-locked-white");
+      $(".title-thumb").removeClass("title-thumb-locked");
+      $(".title-h3").removeClass("title-h3-locked");
+    }
+  });
+</script>
