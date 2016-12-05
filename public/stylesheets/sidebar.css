@@ -16,6 +16,14 @@
   background-color: #ff8080 !important; // manage scrollbar thumb background color here
 }
 
+.fa-chevron-right {
+  transition: all 0.4s ease-in-out;
+}
+
+.clicked-chevron {
+  transform: rotate(180deg);
+}
+
 
 #sideBar-left {
   position: absolute;

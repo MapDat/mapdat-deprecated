@@ -36,8 +36,11 @@
 function toggleLeftSidebar(){
   if( $('#sideBar-left').hasClass('clicked-left')){
     $('#sideBar-left').removeClass('clicked-left');
+    $(".fa-chevron-right").addClass('clicked-chevron');
   } else {
     $('#sideBar-left').addClass('clicked-left');
+    $(".fa-chevron-right").removeClass('clicked-chevron');
+
   }
 };
 
