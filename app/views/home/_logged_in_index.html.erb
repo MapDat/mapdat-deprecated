@@ -51,15 +51,71 @@ function toggleAccountSidebar(){
   }
 };
 
+function sizePopularTimesBars(data){
+  var popularTimes = $(".popular-container");
+  var popularBars = popularTimes.children();
+  for(var i = 0; i < popularBars.length; i++){
+    var bar = $("#"+i);
+    bar.css("height", (data.pop_times[i].popularity*10)+"%");
+  }
+}
+
+function fillReviews(data){
+  var reviewAvg = $(".title #avg-review");
+  var reviewTotal = $(".title .total");
+  var stars_full = Math.floor(data.avg_review);
+  var stars_half = Math.round(data.avg_review);
+  console.log(stars_full, stars_half);
+  reviewAvg.text(Math.round(data.avg_review*10)/10);
+  reviewTotal.text(data.reviews.length + " reviews");
+  for(var i = 1; i <= 5; i++){
+    if(i <= stars_full){
+      $(".star"+i).addClass("fa-star");
+      $(".star"+i).removeClass("fa-star-o");
+      $(".star"+i).removeClass("fa-star-half-o");
+    } else if(i == stars_half){
+      $(".star"+i).addClass("fa-star-half-o");
+      $(".star"+i).removeClass("fa-star");
+      $(".star"+i).removeClass("fa-star-0");
+    } else {
+      $(".star"+i).addClass("fa-star-o");
+      $(".star"+i).removeClass("fa-star");
+      $(".star"+i).removeClass("fa-star-half-o");
+    }
+  }
+}
+
 function fillLeftSidebar(e) {
     var classId = e.target.classList[0];
-    var sidebarTitle = $(".title #name");
-    var sidebarDescription = $("#description p");
-    var sidebarImage = $(".cover img");
+    var title = $(".title #name");
+    var description = $("#description p");
+    var image = $(".cover img");
+
+    var floors = $("#floors");
+    var outlets = $("#outlets");
+    var studying = $("#studying");
+    var computers = $("#computers");
     $.getJSON("/info?object_id=" + classId, function(data){
-      sidebarTitle.text(data.building.name);
-      sidebarDescription.text(data.building.description);
-      // sidebarImage.attr("src", "public/uploads/"+data.building.image_path);
+      // console.log(data);
+      title.text(data.building.name);
+      description.text(data.building.description);
+      // Set Image Path
+      // image.attr("src", "public/uploads/"+data.building.image_path);
+      // Size Popular Times
+      sizePopularTimesBars(data);
+      // Fill Review Data
+      fillReviews(data);
+      // Fill Icon Data
+      floors.text(data.building.number_of_floors);
+      outlets.text(data.building.number_of_outlets);
+      // Boolean to indicate if study space
+      if(data.building.study_space === 0){
+        studying.hide();
+      }
+      // Boolean to indicate if it has computers
+      if(data.building.computers === 0){
+        computers.hide();
+      }
     });
     $("#review_obj").val(classId);
  };
