@@ -6,18 +6,31 @@
 <!-- <div id="mapid"></div> -->
 <div class="container">
   <%= render "sidebar" %>
-  <% if params[:show_poi] == 'false' || params[:show_poi].nil? %>
-    <%= button_to "Show Points of Interest", show_poi_path, method: :post, params: { zoom: @zoom } %>
-  <% else %>
-    <%= button_to "Hide Points of Interest", hide_poi_path, method: :post, params: { zoom: @zoom } %>
-  <% end %>
   <div id="sideBar-right" class="clicked-right">
     <div class="top-row">
-      <h3>Hey there, Vincent!</h3>
+      <h3>Hey there, <%= current_user[:first_name] %></h3>
       <%= button_to "About", method: :get%>
       <%= button_to "Logout", logout_path, method: :get%>
       <%= button_to "Settings", settings_path, method: :get %>
     </div>
+
+    <% if params[:show_poi] == 'false' || params[:show_poi].nil? %>
+      <%= button_to "Show Points of Interest", show_poi_path, method: :post, params: { zoom: @zoom } %>
+    <% else %>
+      <%= button_to "Hide Points of Interest", hide_poi_path, method: :post, params: { zoom: @zoom } %>
+    <% end %>
+
+    <% if params[:show_south_study] == 'false' || params[:show_south_study].nil? %>
+      <%= button_to "Show me buildings on the south side of campus\n that have both computers and study space.", show_south_study_path, method: :post, params: { zoom: @zoom } %>
+    <% else %>
+      <%= button_to "Hide Show me buildings on the south side of campus that have both computers and study space.", hide_south_study_path, method: :post, params: { zoom: @zoom } %>
+    <% end %>
+
+    <% if params[:show_query3] == 'false' || params[:show_qery3].nil? %>
+      <%= button_to "Show buildings with a rating over 3 and has more than 2 restaurants", show_query3_path, method: :post, params: { zoom: @zoom } %>
+    <% else %>
+      <%= button_to "Show buildings with a rating over 3 and has more than 2 restaurants", show_query3_path, method: :post, params: { zoom: @zoom } %>
+    <% end %>
   </div>
   <button type="button" class="account-btn account-clicked" name="button">
     <!-- <img src="" alt=""> -->

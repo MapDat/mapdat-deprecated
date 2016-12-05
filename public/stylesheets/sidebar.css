@@ -79,6 +79,10 @@
   font-size: 20px;
 }
 
+#review-row {
+  width: auto;
+}
+
 #review-row .review {
   margin: 10px 0px;
   margin-right: 6px;
@@ -203,4 +207,159 @@
   margin: 0;
   font-size: 9px;
   transform: translateY(1px);
+}
+
+#reviews {
+  padding: 20px 20px;
+  /*height: 300px;*/
+}
+
+#reviews .avg-rating {
+  background-color: #ff8080;
+  border-radius: 8px;
+  width: 74%;
+  padding-left: 10px;
+}
+
+#reviews .total-ratings {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#reviews .total-ratings .rating-row {
+  height: 30px;
+  margin-bottom: 4px;
+}
+
+#reviews .total-ratings .rating-row p {
+  display: inline-block;
+  width: 10px;
+  margin: 0px;
+  margin-top: 2px;
+  transform: translateY(-9px);
+  margin-left: 20px;
+  opacity: 0.3;
+}
+
+#reviews .total-ratings .rating-row .fa {
+  transform: translateY(-9px);
+  opacity: 0.3;
+}
+
+#reviews .total-ratings .rating-row .percentage{
+  display: inline-block;
+  height: 100%;
+  width: 67%;
+  background-color: #ff8080;
+  margin-left: 4px;
+  border-radius: 0px 8px 8px 0px;
+}
+
+#reviews .total-ratings .rating-row .total-count {
+  margin-left: 0;
+  text-align: right;
+  transform: translateX(-30px) translateY(-9px);
+  opacity: 1;
+  color: white;
+}
+
+#reviews .indv-reviews-container {
+  padding: 0 14px;
+  margin-top: 20px;
+}
+
+#reviews .indv-review {
+  margin-bottom: 14px;
+}
+
+#reviews .indv-review img {
+  display: inline-block;
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+}
+
+#reviews .indv-review .commentor {
+  display: inline-block;
+  width: 70%;
+  transform: translateY(-5px);
+  margin-left: 10px;
+}
+
+#reviews .indv-review h3 {
+  font-weight: normal;
+  margin: 0;
+}
+
+#reviews .indv-review .avg-review-stars {
+  margin-top: 8px;
+}
+
+#reviews .indv-review .avg-review-stars .fa {
+  color: #ff8080;
+}
+
+#reviews .indv-review p {
+  margin-left: 65px;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+#reviews .comment-div {
+  margin-left: 65px;
+  width: 78%;
+}
+
+#restaurant {
+  padding: 20px;
+}
+
+#restaurant .open {
+  background-color: #ff8080;
+  border-radius: 8px;
+  width: 60%;
+  padding-left: 20px;
+  color: white;
+}
+
+#restaurant .fa {
+  display: inline-block;
+  font-size: 18px;
+  margin-right: 6px;
+}
+
+#restaurant h2 {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+#restaurant .single {
+  padding: 0 20px;
+}
+
+#restaurant .single h3 {
+  font-size: 18px;
+  font-weight: normal;
+  margin-bottom: 5px;
+}
+
+#restaurant .single .fa {
+  color: #ff8080;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+#restaurant .single h6 {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  font-size: 15px;
+  font-weight: normal;
+  transform: translateY(-1px);
+}
+
+#restaurant .single .divider {
+  margin-top: 10px;
 }
