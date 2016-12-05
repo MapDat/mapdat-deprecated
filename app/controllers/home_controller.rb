@@ -6,48 +6,24 @@ class HomeController < ApplicationController
   def index
     @connection = ActiveRecord::Base.connection
 
-    if params[:zoom]
-      @zoom = params[:zoom]
-    else
-      @zoom = 18
-    end
+    @zoom = 18
 
-    logger.info params[:show_poi]
-    if params[:show_poi] == 'false' || params[:show_poi].nil?
-      @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
-                                         FROM map_object m, geo_point g, building b
-                                         WHERE g.object_id = m.id
-                                         AND b.object_id = m.id
-                                        ").rows
-    else
+
+
+
+    if params[:show_poi] == "true"
       @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
                                          FROM map_object m, geo_point g, point_of_interest p
                                          WHERE g.object_id = m.id AND m.id = p.object_id
                                         ").rows
-    end
-
-    if params[:show_south_study] == 'false' || params[:show_south_study].nil?
-      @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
-                                         FROM map_object m, geo_point g, building b
-                                         WHERE g.object_id = m.id
-                                         AND b.object_id = m.id
-                                        ").rows
-    else
+    elsif params[:show_south_study] == "true"
       @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude FROM map_object m, building, geo_point g
                                         WHERE building.object_id = g.object_id
                                         AND longitude < 29.645
                                         AND study_space = 1
                                         AND computers = 1
                                         AND m.id = building.object_id").rows
-    end
-
-    if params[:show_query3] == 'false' || params[:show_query3].nil?
-      @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
-                                         FROM map_object m, geo_point g, building b
-                                         WHERE g.object_id = m.id
-                                         AND b.object_id = m.id
-                                        ").rows
-    else
+    elsif params[:show_query3] == "true"
       @objects = @connection.exec_query("SELECT b.object_id, g.longitude, g.latitude FROM building b, reviews, geo_point g, restaurant r
                                         WHERE b.object_id = reviews.object_id
                                         AND r.object_id = b.object_id
@@ -56,7 +32,14 @@ class HomeController < ApplicationController
                                         AND (SELECT count(*) FROM restaurant re WHERE re.object_id = b.object_id) > 2
                                         ORDER BY rating
                                         DESC").rows
+    else
+      @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
+                                         FROM map_object m, geo_point g, building b
+                                         WHERE g.object_id = m.id
+                                         AND b.object_id = m.id
+                                        ").rows
     end
+
 
     @polylines = []
     @objects.each do |object|
@@ -76,31 +59,6 @@ class HomeController < ApplicationController
     end
 
     @polylines = @polylines.reject { |e| e.to_s.empty? }
-  end
-
-  def show_poi
-    redirect_to controller: 'home', action: 'index', show_poi: true, zoom: params[:zoom]
-  end
-
-  def hide_poi
-    redirect_to controller: 'home', action: 'index', show_poi: false, zoom: params[:zoom]
-  end
-
-
-  def show_south_study
-    redirect_to controller: 'home', action: 'index', show_south_study: true, zoom: params[:zoom]
-  end
-
-  def hide_south_study
-    redirect_to controller: 'home', action: 'index', show_south_study: false, zoom: params[:zoom]
-  end
-
-  def show_query3
-    redirect_to controller: 'home', action: 'index', show_query3: true, zoom: params[:zoom]
-  end
-
-  def hide_query3
-    redirect_to controller: 'home', action: 'index', show_query3: false, zoom: params[:zoom]
   end
 
 
@@ -144,4 +102,30 @@ class HomeController < ApplicationController
     @connection.execute("INSERT INTO reviews VALUES ('#{session[:email]}', #{params[:user][:object_id]}, '#{params[:user][:content]}', to_date('#{Time.now.strftime('%Y%m%d')}', 'yyyymmdd'), '#{params[:user][:title]}', #{params[:user][:rating]})")
     redirect_to '/'
   end
+
+
+  def show_poi
+    redirect_to controller: 'home', action: 'index', show_poi: true
+  end
+
+  def hide_poi
+    redirect_to controller: 'home', action: 'index', show_poi: false
+  end
+
+  def show_south_study
+    redirect_to controller: 'home', action: 'index', show_south_study: true
+  end
+
+  def hide_south_study
+    redirect_to controller: 'home', action: 'index', show_south_study: false
+  end
+
+  def show_query3
+    redirect_to controller: 'home', action: 'index', show_query3: true
+  end
+
+  def hide_query3
+    redirect_to controller: 'home', action: 'index', show_query3: false
+  end
+
 end
