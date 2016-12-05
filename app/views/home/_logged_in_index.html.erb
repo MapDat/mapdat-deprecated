@@ -6,14 +6,16 @@
 <!-- <div id="mapid"></div> -->
 <div class="container">
   <%= render "sidebar" %>
-  <div id="sideBar-right" class="clicked-right">
+    <div id="sideBar-right" class="clicked-right">
     <div class="top-row">
       <h3>Hey there, <%= current_user[:first_name] %></h3>
       <%= button_to "About", method: :get%>
       <%= button_to "Logout", logout_path, method: :get%>
       <%= button_to "Settings", settings_path, method: :get %>
     </div>
-
+    <div class="custom-queries">
+      <h4><i class="fa fa-filter" aria-hidden="true"></i>
+        Useful Filters</h4>
     <% if params[:show_poi] == 'false' || params[:show_poi].nil? %>
       <%= button_to "Show Points of Interest", show_poi_path, method: :post, params: { zoom: @zoom } %>
     <% else %>
@@ -31,6 +33,7 @@
     <% else %>
       <%= button_to "Show buildings with a rating over 3 and has more than 2 restaurants", show_query3_path, method: :post, params: { zoom: @zoom } %>
     <% end %>
+    </div>
   </div>
   <button type="button" class="account-btn account-clicked" name="button">
     <!-- <img src="" alt=""> -->
