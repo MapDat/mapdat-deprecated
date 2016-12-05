@@ -28,8 +28,10 @@ $(document).ready(function(){
 
       $('#leftside-btn').click(function(){
         if( $('#sideBar-left').hasClass('clicked-left')){
+          $(".fa-chevron-right").addClass('clicked-chevron');
           $('#sideBar-left').removeClass('clicked-left');
         } else {
+          $(".fa-chevron-right").removeClass('clicked-chevron');
           $('#sideBar-left').addClass('clicked-left');
         }
           console.log("AWWWW YEAHHHH");
