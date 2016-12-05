@@ -29,15 +29,15 @@ class UserController < ApplicationController
       end
     end
 
-
-    case user_params
-    when user_params[:encrypted_password] && user_params[:img_path].nil?
-      @connection.execute("UPDATE users SET encrypted_password = '#{user_params[:encrypted_password]}' WHERE email = '#{session[:email]}'")
-    when user_params[:encrypted_password] && user_params[:img_path]
-      @connection.execute("UPDATE users SET img_path = '#{file_name}', encrypted_password = '#{user_params[:encrypted_password]}' WHERE email = '#{session[:email]}'")
-    when user_params[:encrypted_password].nil? && user_params[:img_path]
+    if user_params[:encrypted_password] == ""
       @connection.execute("UPDATE users SET img_path = '#{file_name}' WHERE email = '#{session[:email]}'")
+    elsif user_params[:prof_pic].nil?
+      @connection.execute("UPDATE users SET encrypted_password = '#{user_params[:encrypted_password]}' WHERE email = '#{session[:email]}'")
+    else
+      @connection.execute("UPDATE users SET img_path = '#{file_name}', encrypted_password = '#{user_params[:encrypted_password]}' WHERE email = '#{session[:email]}'")
     end
+
+    @connection.execute("COMMIT")
 
     redirect_to '/'
   end
