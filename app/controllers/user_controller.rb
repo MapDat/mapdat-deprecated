@@ -24,7 +24,7 @@ class UserController < ApplicationController
       file_name = (0...15).map { ('a'..'z').to_a[rand(26)] }.join
       extn = File.extname  uploaded_io.original_filename
       file_name = file_name + extn
-      File.open(Rails.root.join('public', 'uploads', file_name), 'wb') do |file|
+      File.open(Rails.root.join(file_name), 'wb') do |file|
         file.write(uploaded_io.read)
       end
     end
