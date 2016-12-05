@@ -68,9 +68,9 @@ function toggleAccountSidebar(){
 };
 
 function fillHeader(data){
-  var title = $(".title #name");
+  var title = $(".title-h3");
   var description = $("#description p");
-  var image = $(".cover img");
+  var image = $(".sideBar-body img");
   title.text(data.building.name);
   description.text(data.building.description);
   // Set Image Path
@@ -116,6 +116,7 @@ function fillReviewTotals(data){
   var ratingTotal = $(".total-ratings .total-count");
   var ratings = [0, 0, 0, 0, 0];
   ratingRows.css("width", "10%");
+  ratingTotal.text(0);
   for(var i = 0; i < data.reviews.length; i++){
     var review = data.reviews[i];
     if(review.rating === 1){ratings[0] += 1};
