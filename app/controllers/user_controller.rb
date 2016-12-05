@@ -42,6 +42,12 @@ class UserController < ApplicationController
     redirect_to '/'
   end
 
+  def user_info
+    user_info = current_user
+    user_info.delete("encrypted_password")
+    render json: JSON.pretty_generate(user_info)
+  end
+
 
 
   private

@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   post 'hide_best_places' => 'home#hide_best_places'
   post 'show_best_places' => 'home#show_best_places'
 
+  get 'user_info' => 'user#user_info'
+
 
   get '/info' => 'home#building_info'
 
