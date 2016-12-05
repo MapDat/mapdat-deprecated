@@ -15,10 +15,18 @@ Rails.application.routes.draw do
   post '/show_poi' => 'home#show_poi'
   post '/hide_poi' => 'home#hide_poi'
 
+  post '/show_south_study' => 'home#show_south_study'
+  post '/hide_south_study' => 'home#hide_south_study'
+
+  post '/show_query3' => 'home#show_query3'
+  post '/hide_query3' => 'home#hide_query3'
+
+
   get '/info' => 'home#building_info'
 
   post '/review/new/' => 'home#add_review'
-  
+
+
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

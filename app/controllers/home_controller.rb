@@ -26,6 +26,38 @@ class HomeController < ApplicationController
                                         ").rows
     end
 
+    if params[:show_south_study] == 'false' || params[:show_south_study].nil?
+      @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
+                                         FROM map_object m, geo_point g, building b
+                                         WHERE g.object_id = m.id
+                                         AND b.object_id = m.id
+                                        ").rows
+    else
+      @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude FROM map_object m, building, geo_point g
+                                        WHERE building.object_id = g.object_id
+                                        AND longitude < 29.645
+                                        AND study_space = 1
+                                        AND computers = 1
+                                        AND m.id = building.object_id").rows
+    end
+
+    if params[:show_query3] == 'false' || params[:show_query3].nil?
+      @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
+                                         FROM map_object m, geo_point g, building b
+                                         WHERE g.object_id = m.id
+                                         AND b.object_id = m.id
+                                        ").rows
+    else
+      @objects = @connection.exec_query("SELECT b.object_id, g.longitude, g.latitude FROM building b, reviews, geo_point g, restaurant r
+                                        WHERE b.object_id = reviews.object_id
+                                        AND r.object_id = b.object_id
+                                        AND g.object_id = b.object_id
+                                        AND reviews.rating > 3
+                                        AND (SELECT count(*) FROM restaurant re WHERE re.object_id = b.object_id) > 2
+                                        ORDER BY rating
+                                        DESC").rows
+    end
+
     @polylines = []
     @objects.each do |object|
       object_id = object[0]
@@ -53,6 +85,24 @@ class HomeController < ApplicationController
   def hide_poi
     redirect_to controller: 'home', action: 'index', show_poi: false, zoom: params[:zoom]
   end
+
+
+  def show_south_study
+    redirect_to controller: 'home', action: 'index', show_south_study: true, zoom: params[:zoom]
+  end
+
+  def hide_south_study
+    redirect_to controller: 'home', action: 'index', show_south_study: false, zoom: params[:zoom]
+  end
+
+  def show_query3
+    redirect_to controller: 'home', action: 'index', show_query3: true, zoom: params[:zoom]
+  end
+
+  def hide_query3
+    redirect_to controller: 'home', action: 'index', show_query3: false, zoom: params[:zoom]
+  end
+
 
   def building_info
     @connection = ActiveRecord::Base.connection
