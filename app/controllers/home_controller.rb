@@ -39,12 +39,21 @@ class HomeController < ApplicationController
                                          WHERE m.id = b.object_id
                                          AND m.id = r.object_id
                                          AND b.study_space = 1)").rows
-    elsif params[:show_north_museum]
+    elsif params[:show_north_museum] == "true"
       @objects = @connection.exec_query("SELECT m.id, p.longitude, p.latitude
                                          FROM building b, map_object m, geo_point p
                                          WHERE m.id = b.object_id
                                          AND m.id = p.object_id
                                          AND p.longitude >= 29.6449").rows
+
+    elsif params[:show_7am]
+      @objects = @connection.exec_query("SELECT g.object_id, g.longitude, g.latitude FROM geo_point g
+                                         WHERE g.object_id
+                                         IN (SELECT r.object_id FROM restaurant r, open_hours h
+                                         WHERE h.day = 'Tuesday'
+                                         AND r.id = h.rest_id
+                                         AND h.open_time <= 700)").rows
+
     else
       @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
                                          FROM map_object m, geo_point g, building b
@@ -150,11 +159,19 @@ class HomeController < ApplicationController
   end
 
   def show_north_museum
-    redirect_to controller: 'home', action: 'index', show_north_museum: false
+    redirect_to controller: 'home', action: 'index', show_north_museum: true
   end
 
   def hide_north_museum
     redirect_to controller: 'home', action: 'index', show_north_museum: false
+  end
+
+  def show_7am
+    redirect_to controller: 'home', action: 'index', show_7am: true
+  end
+
+  def hide_7am
+    redirect_to controller: 'home', action: 'index', show_7am: false
   end
 
 end

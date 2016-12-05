@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   post '/show_north_museum' => 'home#show_north_museum'
   post '/hide_north_museum'=> 'home#hide_north_museum'
 
+  post '/show_7am' => 'home#show_7am'
+  post '/hide_7am' => 'home#hide_7am'
+
   get '/info' => 'home#building_info'
 
   post '/review/new/' => 'home#add_review'

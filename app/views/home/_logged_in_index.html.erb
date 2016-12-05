@@ -45,6 +45,12 @@
     <% else %>
       <%= button_to "Hide the buildings that are north of Museum Road", hide_north_museum_path, method: :post, params: { zoom: @zoom } %>
     <% end %>
+
+    <% if params[:show_7am] == 'false' || params[:show_7a].nil? %>
+      <%= button_to "Show me restaurants that are open at 7am or earlier on Tuesdays", show_7am_path, method: :post, params: { zoom: @zoom } %>
+    <% else %>
+      <%= button_to "Show me restaurants that are open at 7am or earlier on Tuesdays", hide_7am_path, method: :post, params: { zoom: @zoom } %>
+    <% end %>
     </div>
   </div>
   <button type="button" class="account-btn account-clicked" name="button">
