@@ -1,0 +1,42 @@
+<div id="reviews">
+  <div class="avg-rating">
+    <%= render "rating" %>
+  </div>
+  <div class="total-ratings">
+    <div class="rating-row">
+      <p>5</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <div class="percentage"></div>
+      <p class="total-count">20</p>
+    </div>
+    <div class="rating-row">
+      <p>4</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <div class="percentage" style="width: 40%;"></div>
+      <p class="total-count">20</p>
+    </div>
+    <div class="rating-row">
+      <p>3</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <div class="percentage" style="width: 30%;"></div>
+      <p class="total-count">20</p>
+    </div>
+    <div class="rating-row">
+      <p>2</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <div class="percentage" style="width: 10%;"></div>
+      <p class="total-count">20</p>
+    </div>
+    <div class="rating-row">
+      <p>1</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <div class="percentage" style="width: 10%;"></div>
+      <p class="total-count">2</p>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="indv-reviews-container">
+    <%= render "indv-review" %>
+    <%= render "indv-review" %>
+  </div>
+</div>

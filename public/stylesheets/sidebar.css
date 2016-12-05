@@ -211,7 +211,7 @@
 
 #reviews {
   padding: 20px 20px;
-  height: 300px;
+  /*height: 300px;*/
 }
 
 #reviews .avg-rating {
@@ -260,4 +260,52 @@
   transform: translateX(-30px) translateY(-9px);
   opacity: 1;
   color: white;
+}
+
+#reviews .indv-reviews-container {
+  padding: 0 14px;
+  margin-top: 20px;
+}
+
+#reviews .indv-review {
+  margin-bottom: 14px;
+}
+
+#reviews .indv-review img {
+  display: inline-block;
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+}
+
+#reviews .indv-review .commentor {
+  display: inline-block;
+  width: 70%;
+  transform: translateY(-5px);
+  margin-left: 10px;
+}
+
+#reviews .indv-review h3 {
+  font-weight: normal;
+  margin: 0;
+}
+
+#reviews .indv-review .avg-review-stars {
+  margin-top: 8px;
+}
+
+#reviews .indv-review .avg-review-stars .fa {
+  color: #ff8080;
+}
+
+#reviews .indv-review p {
+  margin-left: 65px;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+#reviews .comment-div {
+  margin-left: 65px;
+  width: 78%;
 }
