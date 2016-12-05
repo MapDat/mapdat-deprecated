@@ -23,6 +23,12 @@
 
 <script>
 
+  $(".render-review-form").show();
+
+  $(".render-review-form").click(function(){
+    $(".full-screen-holder").show();
+  });
+
   function fillUserSidebar(){
    $.getJSON("/user_info", function(user){
      $("#user-name").text(user.first_name);

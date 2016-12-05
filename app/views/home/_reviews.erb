@@ -35,8 +35,10 @@
     </div>
   </div>
   <div class="divider"></div>
-  <button type="button" name="button"></button>
-    <!-- <%= render "review_form" %> -->
+  <div class="custom-queries render-review-form" style="display:none">
+    <input type="submit" value="Submit Review">
+    <%= render 'review_form' %>
+  </div>
   <div class="indv-reviews-container">
     <div class="indv-review"></div>
   </div>
