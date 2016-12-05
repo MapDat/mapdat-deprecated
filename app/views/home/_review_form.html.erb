@@ -1,3 +1,10 @@
+<div class="full-screen-holder">
+  <div class="create-review">
+    <div class="header-review">
+      <h5>Rate & Review</h5>
+    </div>
+    <div class="review-body">
+
 <%= form_for :user, url: '/review/new' do |f| %>
   <%= f.radio_button :rating, 1 %>
   <i class="fa fa-star star1" aria-hidden="true"></i> 1
@@ -23,3 +30,7 @@
     <%= f.submit "Submit" %>
   </div>
 <% end %>
+
+</div>
+</div>
+</div>
