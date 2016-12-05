@@ -12,14 +12,7 @@
   <div class="login-container login-clicked-container">
     <%= render "sessions/form" %>
   </div>
-
 </div>
-<%= @output %>
-
-<%= map(:center => {
-  :latlng => [51.52238797921441, -0.08366235665359283],
-  :zoom => 18
-}) %>
 
 <script>
 
@@ -48,4 +41,5 @@ $(document).ready(function(){
       map.zoomControl.setPosition('bottomright');
 
  });
+
 </script>
