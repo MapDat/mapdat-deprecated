@@ -34,6 +34,13 @@
 <% if params[:show_7am] == 'false' || params[:show_7a].nil? %>
   <%= button_to "Show me restaurants that are open at 7am or earlier on Tuesdays", show_7am_path, method: :post, params: { zoom: @zoom } %>
 <% else %>
-  <%= button_to "Show me restaurants that are open at 7am or earlier on Tuesdays", hide_7am_path, method: :post, params: { zoom: @zoom } %>
+  <%= button_to "Hide restaurants that are open at 7am or earlier on Tuesdays", hide_7am_path, method: :post, params: { zoom: @zoom } %>
+<% end %>
+
+
+<% if params[:show_best_places] == 'false' || params[:show_best_places].nil? %>
+  <%= button_to "Show me all the buildings with average rating greater than 4", show_7am_path, method: :post, params: { zoom: @zoom } %>
+<% else %>
+  <%= button_to "Hide the buildings with average rating greater than 4", hide_7am_path, method: :post, params: { zoom: @zoom } %>
 <% end %>
 </div>

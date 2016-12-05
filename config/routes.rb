@@ -30,6 +30,10 @@ Rails.application.routes.draw do
   post '/show_7am' => 'home#show_7am'
   post '/hide_7am' => 'home#hide_7am'
 
+  post 'hide_best_places' => 'home#hide_best_places'
+  post 'show_best_places' => 'home#show_best_places'
+
+
   get '/info' => 'home#building_info'
 
   post '/review/new/' => 'home#add_review'

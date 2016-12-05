@@ -42,6 +42,8 @@ class UserController < ApplicationController
     redirect_to '/'
   end
 
+
+
   private
 
   def user_params

@@ -54,6 +54,15 @@ class HomeController < ApplicationController
                                          AND r.id = h.rest_id
                                          AND h.open_time <= 700)").rows
 
+    elsif params[:show_best_places]
+      @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
+                                         FROM map_object m, geo_point g
+                                         WHERE m.id = g.object_id AND m.id IN
+                                         (SELECT r.object_id
+                                         FROM reviews r GROUP BY r.object_id
+                                         HAVING AVG(r.rating) > 4
+                                         )")
+
     else
       @objects = @connection.exec_query("SELECT m.id, g.longitude, g.latitude
                                          FROM map_object m, geo_point g, building b
@@ -172,6 +181,14 @@ class HomeController < ApplicationController
 
   def hide_7am
     redirect_to controller: 'home', action: 'index', show_7am: false
+  end
+
+  def show_best_places
+    redirect_to controller: 'home', action: 'index', show_best_places: true
+  end
+
+  def hide_best_places
+    redirect_to controller: 'home', action: 'index', show_best_places: false
   end
 
 end
