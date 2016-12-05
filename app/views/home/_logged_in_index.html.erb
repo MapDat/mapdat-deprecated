@@ -54,14 +54,14 @@ function toggleAccountSidebar(){
 function fillLeftSidebar(e) {
     var classId = e.target.classList[0];
     var sidebarTitle = $(".title #name");
-    var sidebarDescription = $(".title #description p");
+    var sidebarDescription = $("#description p");
     var sidebarImage = $(".cover img");
     $.getJSON("/info?object_id=" + classId, function(data){
-      console.log(data);
       sidebarTitle.text(data.building.name);
       sidebarDescription.text(data.building.description);
       // sidebarImage.attr("src", "public/uploads/"+data.building.image_path);
     });
+    $("#review_obj").val(classId);
  };
 
 $(document).ready(function(){
@@ -87,10 +87,5 @@ $(".leaflet-container").click(function(e){
     $('#sideBar-left').addClass('clicked-left');
   }
 });
-
- var current_obj = 613
- $(document).ready(function(){
-    $("#review_obj").val(current_obj);
-  });
 
 </script>
