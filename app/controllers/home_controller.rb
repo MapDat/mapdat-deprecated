@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   require 'json'
-  require 'Date'
+  require 'date'
   #before_filter :authorize
 
   def index
